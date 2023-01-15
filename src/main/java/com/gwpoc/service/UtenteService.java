@@ -2,10 +2,12 @@ package com.gwpoc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.fragment.cach.SessionChService;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
+import com.gwpoc.fragment.model.Utente;
 import com.gwpoc.model.request.SessionRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.UtenteResponse;
@@ -26,7 +28,7 @@ public class UtenteService {
 		UtenteIwResponse iResp = iwdbClient.registraUt(request);
 		
 		response.setBt(iResp.getBt());
-		response.setRegistered(true);
+		response.setRegisteredUpdated(true);
 		
 		return response;
 	}
@@ -46,8 +48,38 @@ public class UtenteService {
 		iwdbClient.updateUtente(request);
 		
 		response.setMsg("Dati aggiornati con successo");
+		response.setRegisteredUpdated(true);
 		
 		return response;
 		
+	}
+	
+	// get utente
+	public UtenteResponse getUtente(String bt) {
+		
+		
+		UtenteResponse response = new UtenteResponse();
+		
+		UtenteIwResponse iResp = iwdbClient.getUtente(bt);
+		
+		response.setUtente(mapRespToDto(iResp));
+		
+		return response;
+	}
+	
+	
+	private Utente mapRespToDto(UtenteIwResponse dto) {
+		
+		Utente response = new Utente();
+		response.setBt(dto.getBt());
+		response.setCf(dto.getCf());
+		response.setChannel(dto.getChannel());
+		response.setId(dto.getId());
+		response.setUsername(dto.getUsername());
+		
+		if(!ObjectUtils.isEmpty(dto.getAccount()))
+			response.setAccount(dto.getAccount());
+		
+		return response;
 	}
 }

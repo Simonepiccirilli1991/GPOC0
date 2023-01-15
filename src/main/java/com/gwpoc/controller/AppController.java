@@ -30,4 +30,9 @@ public class AppController {
 		
 		return new ResponseEntity<>(utenteService.update(request), HttpStatus.OK);
 	}
+	
+	@PostMapping("get")
+	public ResponseEntity<UtenteResponse> getUtente(@RequestBody String bt){
+		return new ResponseEntity<>(utenteService.getUtente(bt),HttpStatus.OK);
+	}
 }

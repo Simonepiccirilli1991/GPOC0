@@ -71,7 +71,40 @@ public class IwdbClient {
 		}
 
 		response = iResp.block();
+		
+		// controllo response di widb
+		if(response.getIsError())
+			//TODO lanciare eccezione 
+			response.setIsError(true);
+		
+		return response;
+	}
+	
+	public UtenteIwResponse getUtente(String bt) {
+		
+		UtenteIwResponse response = null;
+		Mono<UtenteIwResponse> iResp = null;
+
+		try {
+			iResp = webClient.get()
+					.uri("ut/get"+bt)
+					.accept(MediaType.APPLICATION_JSON)
+					.retrieve()
+					.bodyToMono(UtenteIwResponse.class);
+		}
+
+		catch(Exception e) {
+			//TODO implementare gestione errore
+		}
+
+		//TODO inserire controlli con eccezione 
+		if(ObjectUtils.isEmpty(iResp)) {
+
+		}
+
+		response = iResp.block();
 
 		return response;
 	}
+	
 }

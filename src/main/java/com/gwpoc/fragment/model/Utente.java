@@ -1,9 +1,6 @@
-package com.gwpoc.fragment.iwdb;
+package com.gwpoc.fragment.model;
 
-import com.gwpoc.fragment.model.Account;
-import com.gwpoc.fragment.model.IwdbBaseResponse;
-
-public class UtenteIwResponse extends IwdbBaseResponse {
+public class Utente {
 
 	private long id;
 	private String bt;

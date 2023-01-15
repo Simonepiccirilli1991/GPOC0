@@ -3,12 +3,14 @@ package com.gwpoc.fragment.cach;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gwpoc.Util.ConstEnum;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.model.request.SessionRequest;
 import com.gwpoc.model.response.SessionResponse;
 
+@Service
 public class SessionChService {
 
 	@Autowired
