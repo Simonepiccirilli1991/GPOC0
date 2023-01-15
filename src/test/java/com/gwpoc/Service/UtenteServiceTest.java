@@ -1,6 +1,7 @@
 package com.gwpoc.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -13,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
+import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.SessionResponse;
@@ -20,7 +22,7 @@ import com.gwpoc.model.response.UtenteResponse;
 import com.gwpoc.service.UtenteService;
 
 @SpringBootTest
-public class ServiceTest {
+public class UtenteServiceTest {
 
 	@Autowired
 	UtenteService utenteService;
@@ -99,4 +101,6 @@ public class ServiceTest {
 		assertThat(response.getUtente().getCf()).isEqualTo("cf");
 		assertThat(response.getUtente().getId()).isEqualTo(1);
 	}
+	
+	
 }

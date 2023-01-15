@@ -1,6 +1,7 @@
 package com.gwpoc.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,9 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
+import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.SessionResponse;
@@ -120,5 +123,38 @@ public class AppControllerTest {
 
 		assertThat(response.getUtente().getCf()).isEqualTo("cf");
 		assertThat(response.getUtente().getId()).isEqualTo(1);
+	}
+	
+	@Test
+	public void getSessionTestKO() throws Exception {
+		
+		UtenteRequest request = new UtenteRequest();
+		request.setCf("cf");
+		request.setChannel("web");
+		request.setUsername("username");
+		
+		UtenteIwResponse iResp = new UtenteIwResponse();
+		iResp.setBt("bt");
+		iResp.setIsError(false);
+		iResp.setCf("cf");
+		iResp.setCodiceEsito("00");
+		
+		SessionResponse sessResp = new SessionResponse();
+		sessResp.setBt("bt");
+		sessResp.setScope("l1");
+		sessResp.setValid(true);
+		
+		
+		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		
+		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
+		
+		mvc.perform(post("/app/update")
+				.contentType("application/json")
+				.content(mapper.writeValueAsString("bt")))
+				.andExpect(status().isBadRequest());
+		 
+
+
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.gwpoc.client.IwdbClient;
+import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.cach.SessionChService;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.fragment.model.Utente;
@@ -42,7 +43,7 @@ public class UtenteService {
 		SessionRequest sessRequest = new SessionRequest();
 		
 		if(!sessionChService.checkL2(sessRequest)) {
-			//TODO implementare lancio eccezzione utente non in l2
+			throw new AppException("ERKO-10");
 		}
 		
 		iwdbClient.updateUtente(request);
