@@ -28,6 +28,9 @@ public class UtenteService {
 		
 		UtenteIwResponse iResp = iwdbClient.registraUt(request);
 		
+		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+			throw new AppException("ERKO-02");
+		
 		response.setBt(iResp.getBt());
 		response.setRegisteredUpdated(true);
 		
@@ -46,7 +49,10 @@ public class UtenteService {
 			throw new AppException("ERKO-10");
 		}
 		
-		iwdbClient.updateUtente(request);
+		UtenteIwResponse iResp = iwdbClient.updateUtente(request);
+		
+		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+			throw new AppException("ERKO-02");
 		
 		response.setMsg("Dati aggiornati con successo");
 		response.setRegisteredUpdated(true);
@@ -62,6 +68,9 @@ public class UtenteService {
 		UtenteResponse response = new UtenteResponse();
 		
 		UtenteIwResponse iResp = iwdbClient.getUtente(bt);
+		
+		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+			throw new AppException("ERKO-02");
 		
 		response.setUtente(mapRespToDto(iResp));
 		
