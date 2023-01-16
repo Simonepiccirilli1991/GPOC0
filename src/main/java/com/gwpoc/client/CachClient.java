@@ -2,6 +2,7 @@ package com.gwpoc.client;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -15,7 +16,8 @@ import reactor.core.publisher.Mono;
 @Component
 public class CachClient {
 
-	private String cach0Uri = "http://localhost:8089";
+	@Value("${config.cach0.end-point}")
+	private String cach0Uri;
 	WebClient webClient = WebClient.create(cach0Uri);
 	
 	public Optional<SessionResponse> getSession(SessionRequest request) {

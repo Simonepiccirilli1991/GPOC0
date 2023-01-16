@@ -6,8 +6,10 @@ import org.springframework.util.ObjectUtils;
 
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
+import com.gwpoc.fragment.cach.SessionChService;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.model.request.AccountRequest;
+import com.gwpoc.model.request.SessionRequest;
 import com.gwpoc.model.response.AccountResponse;
 
 @Service
@@ -15,6 +17,8 @@ public class AccountService {
 
 	@Autowired
 	IwdbClient iwdbClient;
+	@Autowired
+	SessionChService sessionChService;
 	
 	public AccountResponse insertAccount(AccountRequest request) {
 		
@@ -22,7 +26,7 @@ public class AccountService {
 		
 		AccountIwResponse iResp = iwdbClient.insertAccount(request);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setAccount(iResp.getAccount());
@@ -37,7 +41,7 @@ public class AccountService {
 		
 		AccountIwResponse iResp = iwdbClient.getAcc(bt);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setAccount(iResp.getAccount());
@@ -49,9 +53,17 @@ public class AccountService {
 	public AccountResponse updateAccount(AccountRequest request) {
 		
 		AccountResponse response = new AccountResponse();
+		
+		SessionRequest sessRequest = new SessionRequest();
+		sessRequest.setBt(request.getBt());
+		// controllo che sessione sia in l2
+		if(!sessionChService.checkL2(sessRequest)) {
+			throw new AppException("ERKO-10");
+		}
+		
 		AccountIwResponse iResp = iwdbClient.updateAcc(request);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setAccount(iResp.getAccount());

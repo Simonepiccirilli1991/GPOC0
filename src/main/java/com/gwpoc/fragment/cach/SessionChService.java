@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gwpoc.Util.ConstEnum;
 import com.gwpoc.client.CachClient;
+import com.gwpoc.error.AppException;
 import com.gwpoc.model.request.SessionRequest;
 import com.gwpoc.model.response.SessionResponse;
 
@@ -21,7 +22,7 @@ public class SessionChService {
 		Optional<SessionResponse> response = cachClient.getSession(request);
 		
 		if(response.isEmpty()) {
-			//TODO implementare lancio eccezzione
+			throw new AppException("SSKO-2");
 		}	
 			
 		// controllo che scope sia L2 se no lancio eccezzione

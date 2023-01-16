@@ -41,7 +41,6 @@ public class UtenteServiceTest {
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
@@ -63,7 +62,6 @@ public class UtenteServiceTest {
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
@@ -89,7 +87,6 @@ public class UtenteServiceTest {
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		iResp.setId(1);
@@ -101,6 +98,7 @@ public class UtenteServiceTest {
 		assertThat(response.getUtente().getCf()).isEqualTo("cf");
 		assertThat(response.getUtente().getId()).isEqualTo(1);
 	}
+	
 	
 	
 }

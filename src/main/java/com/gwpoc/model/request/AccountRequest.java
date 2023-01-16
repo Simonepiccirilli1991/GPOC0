@@ -1,26 +1,22 @@
 package com.gwpoc.model.request;
 
-public class AccountRequest {
+import org.springframework.lang.NonNull;
 
-	private String btToPay;
-	private String btToReceive; // usato anche come pk per creare acc
+public class AccountRequest {
+	
+	@NonNull
+	private String bt;
 	private Double importo; // usato anche in fase di creazione per saldo
 	
 	// per creazione acc
 	private String tipoAccount;
 	private Double debito;
 	
-	public String getBtToPay() {
-		return btToPay;
+	public String getBt() {
+		return bt;
 	}
-	public void setBtToPay(String btToPay) {
-		this.btToPay = btToPay;
-	}
-	public String getBtToReceive() {
-		return btToReceive;
-	}
-	public void setBtToReceive(String btToReceive) {
-		this.btToReceive = btToReceive;
+	public void setBt(String bt) {
+		this.bt = bt;
 	}
 	public Double getImporto() {
 		return importo;
@@ -40,6 +36,8 @@ public class AccountRequest {
 	public void setDebito(Double debito) {
 		this.debito = debito;
 	}
+	
+	
 	
 	
 }

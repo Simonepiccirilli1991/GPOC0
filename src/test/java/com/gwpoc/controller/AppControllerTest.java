@@ -39,7 +39,7 @@ public class AppControllerTest {
 
 	ObjectMapper mapper = new ObjectMapper();
 
-
+// -------- UTENTE TEST ---------------------------------------------------------------------------------//
 	@Test
 	public void registraUtenteTestOK() throws Exception {
 
@@ -50,13 +50,12 @@ public class AppControllerTest {
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 
 		when(iwdbClient.registraUt(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/register")
+		String resp = mvc.perform(post("/app/ut/register")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -77,7 +76,6 @@ public class AppControllerTest {
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 
@@ -91,7 +89,7 @@ public class AppControllerTest {
 
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/update")
+		String resp = mvc.perform(post("/app/ut/update")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -107,14 +105,13 @@ public class AppControllerTest {
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		iResp.setId(1);
 
 		when(iwdbClient.getUtente(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/get")
+		String resp = mvc.perform(post("/app/ut/get")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString("bt")))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -135,7 +132,6 @@ public class AppControllerTest {
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setIsError(false);
 		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
@@ -149,7 +145,7 @@ public class AppControllerTest {
 		
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 		
-		mvc.perform(post("/app/update")
+		mvc.perform(post("/app/ut/update")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString("bt")))
 				.andExpect(status().isBadRequest());
@@ -157,4 +153,7 @@ public class AppControllerTest {
 
 
 	}
+	
+// -------------Account Test ----------------------------------------------------------------------------//
+	
 }

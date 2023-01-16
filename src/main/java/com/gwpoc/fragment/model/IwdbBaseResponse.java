@@ -5,7 +5,7 @@ public class IwdbBaseResponse {
 	
 	private String msg;
 	private String codiceEsito;
-	private Boolean isError;
+	private boolean isError;
 	private String errDsc;
 	
 	public String getMsg() {
@@ -20,17 +20,17 @@ public class IwdbBaseResponse {
 	public void setCodiceEsito(String codiceEsito) {
 		this.codiceEsito = codiceEsito;
 	}
-	public Boolean getIsError() {
-		return isError;
-	}
-	public void setIsError(Boolean isError) {
-		this.isError = isError;
-	}
 	public String getErrDsc() {
 		return errDsc;
 	}
 	public void setErrDsc(String errDsc) {
 		this.errDsc = errDsc;
+	}
+	public boolean isError() {
+		return isError;
+	}
+	public void setError(boolean isError) {
+		this.isError = isError;
 	}
 	
 	

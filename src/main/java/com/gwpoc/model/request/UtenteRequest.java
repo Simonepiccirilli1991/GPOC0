@@ -10,6 +10,7 @@ public class UtenteRequest {
 	private String cf;
 	@NonNull
 	private String channel;
+	private String bt;
 	
 	public String getUsername() {
 		return username;
@@ -28,6 +29,12 @@ public class UtenteRequest {
 	}
 	public void setChannel(String channel) {
 		this.channel = channel;
+	}
+	public String getBt() {
+		return bt;
+	}
+	public void setBt(String bt) {
+		this.bt = bt;
 	}
 	
 	

@@ -28,7 +28,7 @@ public class UtenteService {
 		
 		UtenteIwResponse iResp = iwdbClient.registraUt(request);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setBt(iResp.getBt());
@@ -44,6 +44,7 @@ public class UtenteService {
 		
 		// controllo che utente sia in sessione di sicurezza l2
 		SessionRequest sessRequest = new SessionRequest();
+		sessRequest.setBt(request.getBt());
 		
 		if(!sessionChService.checkL2(sessRequest)) {
 			throw new AppException("ERKO-10");
@@ -51,7 +52,7 @@ public class UtenteService {
 		
 		UtenteIwResponse iResp = iwdbClient.updateUtente(request);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setMsg("Dati aggiornati con successo");
@@ -69,7 +70,7 @@ public class UtenteService {
 		
 		UtenteIwResponse iResp = iwdbClient.getUtente(bt);
 		
-		if(ObjectUtils.isEmpty(iResp) || iResp.getIsError())
+		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
 		response.setUtente(mapRespToDto(iResp));

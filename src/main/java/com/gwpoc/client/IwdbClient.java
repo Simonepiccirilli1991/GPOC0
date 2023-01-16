@@ -1,5 +1,6 @@
 package com.gwpoc.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -16,7 +17,9 @@ import reactor.core.publisher.Mono;
 @Component
 public class IwdbClient {
 
-	private String iwdbUri = "http://localhost:8083";
+	@Value("${config.iwdb0.end-point}")
+	private String iwdbUri;
+	
 	WebClient webClient = WebClient.create(iwdbUri);
 
 	// registra utente
