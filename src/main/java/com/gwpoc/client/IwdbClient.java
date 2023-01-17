@@ -8,8 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
+import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.model.request.AccountRequest;
+import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.UtenteRequest;
 
 import reactor.core.publisher.Mono;
@@ -148,4 +150,49 @@ public class IwdbClient {
 
 		return response;
 	}
+	
+	// orderCall
+	//createOrder
+	public OrdiniIwResponse creaOrdine(OrdiniRequest request) {
+		
+		OrdiniIwResponse response = null;
+		Mono<OrdiniIwResponse> iResp = null;
+		
+		try {
+			iResp = webClient.post()
+					.uri("ordini/insert")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), OrdiniRequest.class)
+					.retrieve()
+					.bodyToMono(OrdiniIwResponse.class);
+		}catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		return response;
+	}
+	// get order
+	public OrdiniIwResponse getOrder(OrdiniRequest request) {
+		
+		OrdiniIwResponse response = null;
+		Mono<OrdiniIwResponse> iResp = null;
+		
+		try {
+			iResp = webClient.post()
+					.uri("ordini/get")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), OrdiniRequest.class)
+					.retrieve()
+					.bodyToMono(OrdiniIwResponse.class);
+		}catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		return response;
+	}
+	//
 }

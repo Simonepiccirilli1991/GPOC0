@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gwpoc.fragment.model.Ordini;
 import com.gwpoc.model.request.AccountRequest;
+import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
 import com.gwpoc.model.response.UtenteResponse;
 import com.gwpoc.service.AccountService;
+import com.gwpoc.service.OrdiniService;
 import com.gwpoc.service.UtenteService;
 
 @RestController
@@ -25,6 +28,9 @@ public class AppController {
 	UtenteService utenteService;
 	@Autowired
 	AccountService accService;
+	@Autowired
+	OrdiniService ordService;
+	
 	//utente controller
 	@PostMapping("ut/register")
 	public ResponseEntity<UtenteResponse> registyUtente(@RequestBody UtenteRequest request){	
@@ -53,5 +59,14 @@ public class AppController {
 	@GetMapping("acc/get/{bt}")
 	public ResponseEntity<AccountResponse> insertAcc(@PathVariable ("bt") String bt){
 		return new ResponseEntity<>(accService.getAccount(bt),HttpStatus.OK);
+	}
+	//OrderCOntroller
+	@PostMapping("ord/create")
+	public ResponseEntity<Ordini> createOrder(@RequestBody OrdiniRequest request){
+		return new ResponseEntity<>(ordService.creaOrdine(request), HttpStatus.OK);
+	}
+	@PostMapping("ord/get")
+	public ResponseEntity<Ordini> getOrder(@RequestBody OrdiniRequest request){
+		return new ResponseEntity<>(ordService.getOrdine(request), HttpStatus.OK);
 	}
 }
