@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.gwpoc.Util.ConstEnum;
 import com.gwpoc.client.CachClient;
@@ -19,14 +20,14 @@ public class SessionChService {
 	
 	public Boolean checkL2(SessionRequest request) {
 		
-		Optional<SessionResponse> response = cachClient.getSession(request);
+		SessionResponse response = cachClient.getSession(request);
 		
-		if(response.isEmpty()) {
+		if(!ObjectUtils.isEmpty(response.getNoFound()) && response.getNoFound()) {
 			throw new AppException("SSKO-2");
 		}	
 			
 		// controllo che scope sia L2 se no lancio eccezzione
-		if(!Boolean.TRUE.equals(response.get().getScope().equals(ConstEnum.L2.value()))) {
+		if(!Boolean.TRUE.equals(response.getScope().equals(ConstEnum.L2.value()))) {
 			//sessione non in l2 non lancio eccezzione, setto solo response a valid false
 			return false;
 		}

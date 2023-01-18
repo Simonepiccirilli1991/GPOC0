@@ -94,7 +94,7 @@ public class AppControllerTest {
 		sessResp.setValid(true);
 
 
-		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		when(cachClient.getSession(any())).thenReturn(sessResp);
 
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 
@@ -150,7 +150,7 @@ public class AppControllerTest {
 		sessResp.setValid(true);
 		
 		
-		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		when(cachClient.getSession(any())).thenReturn(sessResp);
 		
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 		
@@ -242,7 +242,7 @@ public class AppControllerTest {
 		sessResp.setScope("l2");
 		sessResp.setValid(true);
 		
-		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		when(cachClient.getSession(any())).thenReturn(sessResp);
 		
 		when(iwdbClient.updateAcc(any())).thenReturn(iResp);
 		

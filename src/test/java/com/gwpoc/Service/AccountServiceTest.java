@@ -99,7 +99,7 @@ public class AccountServiceTest {
 		sessResp.setScope("l2");
 		sessResp.setValid(true);
 		
-		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		when(cachClient.getSession(any())).thenReturn(sessResp);
 		
 		when(client.updateAcc(any())).thenReturn(iResp);
 		

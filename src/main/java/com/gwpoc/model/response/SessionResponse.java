@@ -1,6 +1,8 @@
 package com.gwpoc.model.response;
 
-public class SessionResponse {
+import com.gwpoc.fragment.model.BaseCacheResponse;
+
+public class SessionResponse extends BaseCacheResponse{
 
 	private String bt;
 	private String scope;

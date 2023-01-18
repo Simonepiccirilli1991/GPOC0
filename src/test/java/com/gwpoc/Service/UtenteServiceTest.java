@@ -71,7 +71,7 @@ public class UtenteServiceTest {
 		sessResp.setValid(true);
 		
 		
-		when(cachClient.getSession(any())).thenReturn(Optional.of(sessResp));
+		when(cachClient.getSession(any())).thenReturn(sessResp);
 		
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 		

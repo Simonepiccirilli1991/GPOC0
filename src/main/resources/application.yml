@@ -6,4 +6,4 @@ config:
   iwdb0:
     end-point: ${IWDB0_ENDPOINT:http://localhost:8083}
   cach0:
-    end-point: ${CACH0_ENDPOINT:http://localhost:8089}
+    end-point: ${CACH0_ENDPOINT:http://localhost:8082}
