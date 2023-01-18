@@ -73,24 +73,9 @@ public class UtenteService {
 		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
 		
-		response.setUtente(mapRespToDto(iResp));
+		response.setUtente(iResp.getUtente());
 		
 		return response;
 	}
 	
-	
-	private Utente mapRespToDto(UtenteIwResponse dto) {
-		
-		Utente response = new Utente();
-		response.setBt(dto.getBt());
-		response.setCf(dto.getCf());
-		response.setChannel(dto.getChannel());
-		response.setId(dto.getId());
-		response.setUsername(dto.getUsername());
-		
-		if(!ObjectUtils.isEmpty(dto.getAccount()))
-			response.setAccount(dto.getAccount());
-		
-		return response;
-	}
 }

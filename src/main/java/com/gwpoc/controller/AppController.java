@@ -32,18 +32,18 @@ public class AppController {
 	OrdiniService ordService;
 	
 	//utente controller
-	@PostMapping("ut/register")
+	@PostMapping("utente/register")
 	public ResponseEntity<UtenteResponse> registyUtente(@RequestBody UtenteRequest request){	
 		return new ResponseEntity<>(utenteService.registra(request), HttpStatus.OK);
 	}
 	
-	@PostMapping("ut/update")
+	@PostMapping("utente/update")
 	public ResponseEntity<UtenteResponse> updateUtente(@RequestBody UtenteRequest request){
 		
 		return new ResponseEntity<>(utenteService.update(request), HttpStatus.OK);
 	}
 	
-	@PostMapping("ut/get")
+	@PostMapping("/utente/get")
 	public ResponseEntity<UtenteResponse> getUtente(@RequestBody String bt){
 		return new ResponseEntity<>(utenteService.getUtente(bt),HttpStatus.OK);
 	}

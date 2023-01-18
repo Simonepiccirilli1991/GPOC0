@@ -19,8 +19,8 @@ import reactor.core.publisher.Mono;
 @Component
 public class IwdbClient {
 
-	@Value("${config.iwdb0.end-point}")
-	private String iwdbUri;
+	//@Value("${config.iwdb0.end-point}")
+	private String iwdbUri = "http://localhost:8083";
 	
 	WebClient webClient = WebClient.create(iwdbUri);
 
@@ -31,7 +31,7 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		try {
 			iResp = webClient.post()
-					.uri("ut/insert")
+					.uri("/ut/inserts")
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
@@ -52,7 +52,7 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		try {
 			iResp = webClient.post()
-					.uri("ut/update")
+					.uri("/ut/update")
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
@@ -74,7 +74,7 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		try {
 			iResp = webClient.get()
-					.uri("ut/get"+bt)
+					.uri("/ut/get"+bt)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
 					.bodyToMono(UtenteIwResponse.class);

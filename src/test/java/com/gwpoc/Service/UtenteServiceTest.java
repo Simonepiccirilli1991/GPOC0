@@ -37,11 +37,9 @@ public class UtenteServiceTest {
 		UtenteRequest request = new UtenteRequest();
 		request.setCf("cf");
 		request.setChannel("web");
-		request.setUsername("username");
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
 		when(iwdbClient.registraUt(any())).thenReturn(iResp);
@@ -58,11 +56,9 @@ public class UtenteServiceTest {
 		UtenteRequest request = new UtenteRequest();
 		request.setCf("cf");
 		request.setChannel("web");
-		request.setUsername("username");
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
 		SessionResponse sessResp = new SessionResponse();
@@ -87,9 +83,7 @@ public class UtenteServiceTest {
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
-		iResp.setId(1);
 		
 		when(iwdbClient.getUtente(any())).thenReturn(iResp);
 		

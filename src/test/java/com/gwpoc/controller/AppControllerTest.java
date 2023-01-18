@@ -55,16 +55,14 @@ public class AppControllerTest {
 		UtenteRequest request = new UtenteRequest();
 		request.setCf("cf");
 		request.setChannel("web");
-		request.setUsername("username");
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 
 		when(iwdbClient.registraUt(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/ut/register")
+		String resp = mvc.perform(post("/app/utente/register")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -81,11 +79,9 @@ public class AppControllerTest {
 		UtenteRequest request = new UtenteRequest();
 		request.setCf("cf");
 		request.setChannel("web");
-		request.setUsername("username");
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 
 		SessionResponse sessResp = new SessionResponse();
@@ -98,7 +94,7 @@ public class AppControllerTest {
 
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/ut/update")
+		String resp = mvc.perform(post("/app/utente/update")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -114,13 +110,11 @@ public class AppControllerTest {
 
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
-		iResp.setId(1);
 
 		when(iwdbClient.getUtente(any())).thenReturn(iResp);
 
-		String resp = mvc.perform(post("/app/ut/get")
+		String resp = mvc.perform(post("/app/utente/get")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString("bt")))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -137,11 +131,9 @@ public class AppControllerTest {
 		UtenteRequest request = new UtenteRequest();
 		request.setCf("cf");
 		request.setChannel("web");
-		request.setUsername("username");
 		
 		UtenteIwResponse iResp = new UtenteIwResponse();
 		iResp.setBt("bt");
-		iResp.setCf("cf");
 		iResp.setCodiceEsito("00");
 		
 		SessionResponse sessResp = new SessionResponse();
@@ -154,7 +146,7 @@ public class AppControllerTest {
 		
 		when(iwdbClient.updateUtente(any())).thenReturn(iResp);
 		
-		mvc.perform(post("/app/ut/update")
+		mvc.perform(post("/app/utente/update")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString("bt")))
 				.andExpect(status().isBadRequest());

@@ -2,22 +2,15 @@ package com.gwpoc.fragment.iwdb;
 
 import com.gwpoc.fragment.model.Account;
 import com.gwpoc.fragment.model.IwdbBaseResponse;
+import com.gwpoc.fragment.model.Utente;
 
 public class UtenteIwResponse extends IwdbBaseResponse {
 
-	private long id;
 	private String bt;
 	private String username;
-	private String cf;
-	private String channel;
 	private Account account;
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
+	private Utente utente;
+
 	public String getBt() {
 		return bt;
 	}
@@ -30,23 +23,17 @@ public class UtenteIwResponse extends IwdbBaseResponse {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getCf() {
-		return cf;
-	}
-	public void setCf(String cf) {
-		this.cf = cf;
-	}
-	public String getChannel() {
-		return channel;
-	}
-	public void setChannel(String channel) {
-		this.channel = channel;
-	}
 	public Account getAccount() {
 		return account;
 	}
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+	public Utente getUtente() {
+		return utente;
+	}
+	public void setUtente(Utente utente) {
+		this.utente = utente;
 	}
 	
 	
