@@ -1,14 +1,14 @@
 services:
   GPOC0:
     build:
-      context: /var/lib/docker
-      dockerfile: GPOC0/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8085:8085"
     image: gpoc-img
   IWDB0:
     build:
-      context: /var/lib/docker/IWDB0/
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8083:8083"
@@ -17,7 +17,7 @@ services:
       - data:/var/lib/h2
   SMOC0:
     build:
-      context: /var/lib/docker/SMOC0/
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8089:8089"
