@@ -16,6 +16,7 @@ import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
+import com.gwpoc.fragment.model.Utente;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.SessionResponse;
 import com.gwpoc.model.response.UtenteResponse;
@@ -85,11 +86,20 @@ public class UtenteServiceTest {
 		iResp.setBt("bt");
 		iResp.setCodiceEsito("00");
 		
+		Utente utente = new Utente();
+		utente.setBt("bt");
+		utente.setCf("cf");
+		utente.setId(1);
+		utente.setUsername("usr");
+		utente.setChannel("ch");
+		
+		iResp.setUtente(utente);
+		
 		when(iwdbClient.getUtente(any())).thenReturn(iResp);
 		
 		UtenteResponse response = utenteService.getUtente("bt");
 		
-		assertThat(response.getUtente().getCf()).isEqualTo("cf");
+		assertThat(response.getUtente().getBt()).isEqualTo("bt");
 		assertThat(response.getUtente().getId()).isEqualTo(1);
 	}
 	

@@ -28,6 +28,7 @@ import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.fragment.model.Account;
 import com.gwpoc.fragment.model.Ordini;
+import com.gwpoc.fragment.model.Utente;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.UtenteRequest;
@@ -112,6 +113,15 @@ public class AppControllerTest {
 		iResp.setBt("bt");
 		iResp.setCodiceEsito("00");
 
+		Utente utente = new Utente();
+		utente.setBt("bt");
+		utente.setCf("cf");
+		utente.setId(1);
+		utente.setUsername("usr");
+		utente.setChannel("ch");
+		
+		iResp.setUtente(utente);
+		
 		when(iwdbClient.getUtente(any())).thenReturn(iResp);
 
 		String resp = mvc.perform(post("/app/utente/get")
@@ -121,7 +131,7 @@ public class AppControllerTest {
 
 		UtenteResponse response = mapper.readValue(resp, UtenteResponse.class);
 
-		assertThat(response.getUtente().getCf()).isEqualTo("cf");
+		assertThat(response.getUtente().getBt()).isEqualTo("bt");
 		assertThat(response.getUtente().getId()).isEqualTo(1);
 	}
 	
