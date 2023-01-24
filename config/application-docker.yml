@@ -6,3 +6,5 @@ config:
     end-point: ${IWDB0_ENDPOINT}
   cach0:
     end-point: ${CACH0_ENDPOINT}
+  smoc0:
+    end-point: ${SMOC0_ENDPOINT}
