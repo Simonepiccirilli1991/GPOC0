@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
@@ -19,8 +20,8 @@ import reactor.core.publisher.Mono;
 @Component
 public class IwdbClient {
 
-	//@Value("${config.iwdb0.end-point}")
-	private String iwdbUri = "http://localhost:8083";
+	@Value("${config.iwdb0.end-point}")
+	private String iwdbUri;
 	
 	WebClient webClient = WebClient.create(iwdbUri);
 
@@ -29,9 +30,11 @@ public class IwdbClient {
 
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/inserts").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("/ut/inserts")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
@@ -50,9 +53,11 @@ public class IwdbClient {
 
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/update").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("/ut/update")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
@@ -72,9 +77,11 @@ public class IwdbClient {
 
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/get/"+bt).toUriString();
 		try {
 			iResp = webClient.get()
-					.uri("/ut/get"+bt)
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
 					.bodyToMono(UtenteIwResponse.class);
@@ -94,9 +101,11 @@ public class IwdbClient {
 		
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/insert").toUriString();
 		try {	
 			iResp = webClient.post()
-					.uri("acc/insert")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), AccountRequest.class)
@@ -115,9 +124,11 @@ public class IwdbClient {
 
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/update").toUriString();
 		try {	
 			iResp = webClient.post()
-					.uri("acc/update")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), AccountRequest.class)
@@ -136,9 +147,11 @@ public class IwdbClient {
 
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/get"+bt).toUriString();
 		try {	
 			iResp = webClient.get()
-					.uri("acc/get/"+bt)
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
 					.bodyToMono(AccountIwResponse.class);
@@ -158,9 +171,10 @@ public class IwdbClient {
 		OrdiniIwResponse response = null;
 		Mono<OrdiniIwResponse> iResp = null;
 		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ordini/insert").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("ordini/insert")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), OrdiniRequest.class)
@@ -179,9 +193,10 @@ public class IwdbClient {
 		OrdiniIwResponse response = null;
 		Mono<OrdiniIwResponse> iResp = null;
 		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ordini/get").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("ordini/get")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), OrdiniRequest.class)

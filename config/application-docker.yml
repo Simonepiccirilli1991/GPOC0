@@ -1,0 +1,8 @@
+server:
+ port: 8085
+ 
+config:
+  iwdb0:
+    end-point: ${IWDB0_ENDPOINT}
+  cach0:
+    end-point: ${CACH0_ENDPOINT}

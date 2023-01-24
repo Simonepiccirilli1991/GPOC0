@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gwpoc.error.AppException;
 import com.gwpoc.model.request.SessionRequest;
@@ -25,10 +26,11 @@ public class CachClient {
 
 		SessionResponse response = null;
 		Mono<SessionResponse> iResp = null;
-
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(cach0Uri + "/sess/get").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("sess/get")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), SessionRequest.class)
@@ -56,9 +58,10 @@ public class CachClient {
 		SessionResponse response = null;
 		Mono<SessionResponse> iResp = null;
 
+		String uri = UriComponentsBuilder.fromHttpUrl(cach0Uri + "/sess/create").toUriString();
 		try {
 			iResp = webClient.post()
-					.uri("sess/get")
+					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), SessionRequest.class)
