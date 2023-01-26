@@ -20,6 +20,8 @@ public class UtenteService {
 	IwdbClient iwdbClient;
 	@Autowired
 	SessionChService sessionChService;
+	@Autowired
+	AnagraficaService anagService;
 	
 	// registra utente
 	public UtenteResponse registra(UtenteRequest request) {
@@ -30,6 +32,9 @@ public class UtenteService {
 		
 		if(ObjectUtils.isEmpty(iResp) || iResp.isError())
 			throw new AppException("ERKO-02");
+		
+		anagService.insertAnagrafica(request, iResp.getBt());
+		
 		
 		response.setBt(iResp.getBt());
 		response.setRegisteredUpdated(true);
