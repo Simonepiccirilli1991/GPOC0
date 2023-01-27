@@ -8,7 +8,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.model.AnagraficaRequest;
+import com.gwpoc.fragment.model.SicRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
+import com.gwpoc.model.response.SicResponse;
 
 import reactor.core.publisher.Mono;
 
@@ -42,7 +44,7 @@ public class AnscClient {
 		response = iResp.block();
 		
 		if(Boolean.TRUE.equals(response.isError()))
-				throw new AppException("TODO");
+				throw new AppException(response.getErrMsg());
 		
 	}
 	// get anagrafica
@@ -65,8 +67,84 @@ public class AnscClient {
 		response = iResp.block();
 		
 		if(Boolean.TRUE.equals(response.isError()))
-				throw new AppException("TODO");
+				throw new AppException(response.getErrMsg());
 		
 		return response;
+	}
+	
+	//certifyMail
+	public void certifyMail(SicRequest request) {
+
+		SicResponse response = null;
+		Mono<SicResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(anscUri + "/sic/certify").toUriString();
+		try {
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), SicRequest.class)
+					.retrieve()
+					.bodyToMono(SicResponse.class);
+		}
+		catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		if(Boolean.TRUE.equals(response.isError()))
+				throw new AppException(response.getErrMsg());
+		
+	}
+	//checkPin
+	public void checkPin(SicRequest request) {
+
+		SicResponse response = null;
+		Mono<SicResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(anscUri + "/sic/checkpin").toUriString();
+		try {
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), SicRequest.class)
+					.retrieve()
+					.bodyToMono(SicResponse.class);
+		}
+		catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		if(Boolean.TRUE.equals(response.isError()))
+				throw new AppException(response.getErrMsg());
+		
+	}
+	//changePin
+	public void changePin(SicRequest request) {
+
+		SicResponse response = null;
+		Mono<SicResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(anscUri + "/sic/changepin").toUriString();
+		try {
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), SicRequest.class)
+					.retrieve()
+					.bodyToMono(SicResponse.class);
+		}
+		catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		if(Boolean.TRUE.equals(response.isError()))
+				throw new AppException("TODO");
+		
 	}
 }

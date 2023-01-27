@@ -8,6 +8,6 @@ config:
   cach0:
     end-point: ${CACH0_ENDPOINT:http://localhost:8082}
   asnc0:
-    end-point: ${ASNC0_ENDPOINT:http://localhost:8087}
+    end-point: ${ASNC0_ENDPOINT:http://localhost:8081}
   otpv0:
-    end-point: ${OTPV0_ENDPOINT:http://localhost:8080}
+    end-point: ${OTPV0_ENDPOINT:http://localhost:8087}

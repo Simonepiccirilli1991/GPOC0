@@ -8,3 +8,7 @@ config:
     end-point: ${CACH0_ENDPOINT}
   smoc0:
     end-point: ${SMOC0_ENDPOINT}
+  ansc0:
+    end-point: ${ANSC0_ENDPOINT}
+  otpv0:
+    end-point: ${OTPV0_ENDPOINT}
