@@ -11,7 +11,8 @@ services:
       - "spring.config.location=/config/application-docker.yml"
       - IWDB0_ENDPOINT=http://IWDB0:8083
       - CACH0_ENDPOINT=http://CACH0:8082
-      - OTPV0_ENDPOINT=http://SMOC0:8087
+      - OTPV0_ENDPOINT=http://OTPV0:8087
+      - ANSC0_ENDPOINT=http://ANSC0:8081
     image: gpoc-img
     networks:
       - app-net
@@ -47,7 +48,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - OTPV0_ENDPOINT=http://SMOC0:8087
+      - OTPV0_ENDPOINT=http://OTPV0:8087
     image: ansc-img
     networks:
       - app-net
@@ -60,8 +61,19 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - OTPV0_ENDPOINT=http://SMOC0:8087
+      - OTPV0_ENDPOINT=http://OTPV0:8087
     image: cach-img
+    networks:
+      - app-net
+  OTPV0:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    environment:
+      - CACH0_ENDPOINT=http://CACH0:8082
+    image: otpv-img
     networks:
       - app-net
 volumes:

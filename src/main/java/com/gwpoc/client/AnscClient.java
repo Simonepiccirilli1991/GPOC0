@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class AnscClient {
 
-	@Value("${config.asnc0.end-point}")
+	@Value("${config.ansc0.end-point}")
 	private String anscUri;
 	
 	WebClient webClient = WebClient.create(anscUri);

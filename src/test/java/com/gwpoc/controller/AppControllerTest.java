@@ -3,6 +3,7 @@ package com.gwpoc.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
@@ -39,7 +41,9 @@ import com.gwpoc.model.response.UtenteResponse;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AppControllerTest {
-
+	
+	@MockBean
+	AnscClient anscClient;
 	@MockBean
 	IwdbClient iwdbClient;
 	@MockBean
@@ -62,7 +66,9 @@ public class AppControllerTest {
 		iResp.setCodiceEsito("00");
 
 		when(iwdbClient.registraUt(any())).thenReturn(iResp);
-
+		
+		doNothing().when(anscClient).insertAnagrafica(any());
+		
 		String resp = mvc.perform(post("/app/utente/register")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(request)))

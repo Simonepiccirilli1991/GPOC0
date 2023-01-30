@@ -7,7 +7,7 @@ config:
     end-point: ${IWDB0_ENDPOINT:http://localhost:8083}
   cach0:
     end-point: ${CACH0_ENDPOINT:http://localhost:8082}
-  asnc0:
-    end-point: ${ASNC0_ENDPOINT:http://localhost:8081}
+  ansc0:
+    end-point: ${ANSC0_ENDPOINT:http://localhost:8081}
   otpv0:
     end-point: ${OTPV0_ENDPOINT:http://localhost:8087}

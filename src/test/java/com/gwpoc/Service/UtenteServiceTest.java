@@ -3,6 +3,7 @@ package com.gwpoc.Service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
@@ -31,6 +33,8 @@ public class UtenteServiceTest {
 	IwdbClient iwdbClient;
 	@MockBean
 	CachClient cachClient;
+	@MockBean
+	AnscClient anscClient;
 	
 	@Test
 	public void registraUtenteTestOK() {
@@ -44,6 +48,8 @@ public class UtenteServiceTest {
 		iResp.setCodiceEsito("00");
 		
 		when(iwdbClient.registraUt(any())).thenReturn(iResp);
+		
+		doNothing().when(anscClient).insertAnagrafica(any());
 		
 		UtenteResponse response = utenteService.registra(request);
 		

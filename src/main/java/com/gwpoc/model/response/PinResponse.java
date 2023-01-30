@@ -1,17 +1,12 @@
 package com.gwpoc.model.response;
 
-public class PinResponse {
+import com.gwpoc.model.action.BaseActionResponse;
 
-	private String action;
+public class PinResponse extends BaseActionResponse{
+
 	private String email;
 	private String trxId;
 	
-	public String getAction() {
-		return action;
-	}
-	public void setAction(String action) {
-		this.action = action;
-	}
 	public String getEmail() {
 		return email;
 	}
