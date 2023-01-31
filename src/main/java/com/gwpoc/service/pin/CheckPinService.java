@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.Util.CommonUtil;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.model.SicRequest;
@@ -42,14 +43,14 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 			throw new AppException("TODO");
 		// se mail certificata apposto implementare action consetnt
 		if(anagrafica.getMailCertificata()) {
-			response.setAction(null);
-			session.createSession(utils.createSessionRequest(iReq));
+			response.setAction(ActionEnum.CONSENT);
+			session.createSession(utils.createSessionRequestL1(iReq));
 			return response;
 			
 		}
 		// se non certificata deve certificare e mando otp alla mail salvata su anagrafica 
 		else {
-			response.setAction(null);
+			response.setAction(ActionEnum.CERTIFYMAIL);
 			response.setEmail(anagrafica.getMail());
 			String trxId = sicurezza.genrateOtpMock(utils.createOtpRequest(iReq, anagrafica.getMail())).getTrxId();
 			response.setTrxId(trxId);

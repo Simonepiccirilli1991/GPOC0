@@ -34,7 +34,7 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 		//TODO quando hai voglia fallo bene cane!
 		SicRequest iReq = utils.changeRequest(iRequest);
 		//controllo che sessione sia creata non mi interessa a che livello
-		SessionResponse sessResponse = session.getSession(utils.createSessionRequest(iReq));
+		SessionResponse sessResponse = session.getSession(utils.createSessionRequestL1(iReq));
 		
 		if(ObjectUtils.isEmpty(sessResponse) || ObjectUtils.isEmpty(sessResponse.getScope()))
 			throw new AppException("No session valid found");

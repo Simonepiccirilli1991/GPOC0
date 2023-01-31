@@ -10,7 +10,7 @@ import com.gwpoc.model.request.SessionRequest;
 @Component
 public class CommonUtil {
 
-	public SessionRequest createSessionRequest(SicRequest request) {
+	public SessionRequest createSessionRequestL1(SicRequest request) {
 
 		SessionRequest iRequest = new SessionRequest();
 		iRequest.setBt(request.getBt());
