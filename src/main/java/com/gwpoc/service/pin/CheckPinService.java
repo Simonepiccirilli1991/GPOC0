@@ -44,7 +44,7 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		// se mail certificata apposto implementare action consetnt
 		if(anagrafica.getMailCertificata()) {
 			response.setAction(ActionEnum.CONSENT);
-			session.createSession(utils.createSessionRequestL1(iReq));
+			session.createSession(utils.createSessionRequestL1(iRequest.getBt()));
 			return response;
 			
 		}
@@ -52,7 +52,7 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		else {
 			response.setAction(ActionEnum.CERTIFYMAIL);
 			response.setEmail(anagrafica.getMail());
-			String trxId = sicurezza.genrateOtpMock(utils.createOtpRequest(iReq, anagrafica.getMail())).getTrxId();
+			String trxId = sicurezza.genrateOtpMock(utils.createOtpRequest(iRequest.getBt(), anagrafica.getMail())).getTrxId();
 			response.setTrxId(trxId);
 			return response;
 		}

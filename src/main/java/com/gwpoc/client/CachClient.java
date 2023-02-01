@@ -82,4 +82,34 @@ public class CachClient {
 		return response;
 	}
 	
+	public SessionResponse updateSession(SessionRequest request) {
+		
+		SessionResponse response = null;
+		Mono<SessionResponse> iResp = null;
+
+		String uri = UriComponentsBuilder.fromHttpUrl(cach0Uri + "/sess/update").toUriString();
+		try {
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), SessionRequest.class)
+					.retrieve()
+					.bodyToMono(SessionResponse.class);
+		}
+
+		catch(Exception e) {
+
+			throw new AppException("SSKO-03");
+		}
+		response = iResp.block();
+		
+		if(ObjectUtils.isEmpty(response) || response.getInsert() == false) {
+			throw new AppException("SSKO-03");
+		}
+		
+		return response;
+		
+	}
+	
 }

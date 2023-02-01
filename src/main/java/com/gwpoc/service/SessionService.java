@@ -27,4 +27,10 @@ public class SessionService {
 		return response;
 	}
 	
+	public SessionResponse update(SessionRequest request) {
+		
+		SessionResponse response = sessCLient.getSession(request);
+		
+		return response;
+	}
 }

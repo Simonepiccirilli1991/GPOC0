@@ -1,4 +1,4 @@
-package com.gwpoc.client;
+package com.gwpoc.command;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;

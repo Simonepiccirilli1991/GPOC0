@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.OtpvClient;
+import com.gwpoc.fragment.model.CheckOtpRequest;
+import com.gwpoc.fragment.model.CheckOtpResponse;
 import com.gwpoc.fragment.model.GenerateOtpRequest;
 import com.gwpoc.fragment.model.SicRequest;
 import com.gwpoc.model.response.GenerateOtpResponse;
@@ -29,6 +31,13 @@ public class SicService {
 	public GenerateOtpResponse genrateOtpMock(GenerateOtpRequest request) {
 		
 		GenerateOtpResponse response = otpv.generaOtpMock(request);
+		
+		return response;
+	}
+	
+	public CheckOtpResponse checkOtp(CheckOtpRequest request) {
+		
+		CheckOtpResponse response = otpv.checkOtp(request);
 		
 		return response;
 	}
