@@ -21,7 +21,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
+import com.gwpoc.client.IwdbClient;
 import com.gwpoc.client.OtpvClient;
+import com.gwpoc.fragment.iwdb.StatusIwResponse;
 import com.gwpoc.fragment.model.CheckOtpResponse;
 import com.gwpoc.model.request.OtpRequest;
 import com.gwpoc.model.request.PinRequest;
@@ -44,6 +46,8 @@ public class ActionControllerTest {
 	OtpvClient otpv;
 	@MockBean
 	CachClient cach;
+	@MockBean
+	IwdbClient iwdb;
 	
 	ObjectMapper mapper = new ObjectMapper();
 	
@@ -119,7 +123,7 @@ public class ActionControllerTest {
 
 		PinResponse response = mapper.readValue(resp, PinResponse.class);
 		
-		assertThat(response.getAction()).isEqualTo(ActionEnum.CONSENT);
+		assertThat(response.getAction()).isEqualTo(ActionEnum.SENDOTP);
 		
 	}
 	
@@ -135,6 +139,17 @@ public class ActionControllerTest {
 		SessionResponse session = new SessionResponse();
 		session.setBt("bt");
 		session.setScope("adad");
+		
+		AnagraficaResponse anag = new AnagraficaResponse();
+		anag.setMailCertificata(true);
+		
+		StatusIwResponse statusResp = new StatusIwResponse();
+		statusResp.setMsg("daje");
+		statusResp.setStatus("registered");
+		
+		when(iwdb.getstatus(any())).thenReturn(statusResp);
+		
+		when(ansc.getAnagrafica(any())).thenReturn(anag);
 		
 		when(cach.getSession(any())).thenReturn(session);
 		
@@ -202,6 +217,17 @@ public class ActionControllerTest {
 		
 		CheckOtpResponse otp = new CheckOtpResponse();
 		otp.setAutenticationSucc(true);
+		
+		AnagraficaResponse anag = new AnagraficaResponse();
+		anag.setMailCertificata(true);
+		
+		StatusIwResponse statusResp = new StatusIwResponse();
+		statusResp.setMsg("daje");
+		statusResp.setStatus("registered");
+		
+		when(iwdb.getstatus(any())).thenReturn(statusResp);
+		
+		when(ansc.getAnagrafica(any())).thenReturn(anag);
 		
 		when(otpv.checkOtp(any())).thenReturn(otp);
 		

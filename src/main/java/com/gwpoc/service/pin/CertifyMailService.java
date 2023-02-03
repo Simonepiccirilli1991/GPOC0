@@ -15,6 +15,7 @@ import com.gwpoc.model.response.PinResponse;
 import com.gwpoc.model.response.SessionResponse;
 import com.gwpoc.service.SessionService;
 import com.gwpoc.service.SicService;
+import com.gwpoc.service.StatusService;
 
 @Service
 public class CertifyMailService extends BaseActionService<PinRequest, PinResponse>{
@@ -25,6 +26,8 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 	SessionService session;
 	@Autowired
 	CommonUtil utils;
+	@Autowired
+	StatusService statusServ;
 	
 	@Override
 	public PinResponse lunchService_(PinRequest iRequest, HttpHeaders httpHeaders) {
@@ -33,7 +36,7 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 		//fatto sta porcata perchè non mi va di refactorare i metodi
 		//TODO quando hai voglia fallo bene cane!
 		SicRequest iReq = utils.changeRequest(iRequest);
-		//controllo che sessione sia creata non mi interessa a che livello
+		//controllo che sessione sia creata
 		SessionResponse sessResponse = session.getSession(utils.createSessionRequestL1(iReq.getBt()));
 		
 		if(ObjectUtils.isEmpty(sessResponse) || ObjectUtils.isEmpty(sessResponse.getScope()))
@@ -41,7 +44,9 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 			
 		sicurezza.certifyMail(iReq);
 		
-		response.setAction(ActionEnum.CONSENT);
+		//updato sessione di sicurezza
+		session.update(utils.updateSessionRequestL2(iRequest.getBt()));
+		response.setAction(statusServ.getStatus(iRequest.getBt()).getAction());
 		return response;
 	}
 

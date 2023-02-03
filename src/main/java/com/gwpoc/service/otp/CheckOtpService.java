@@ -11,6 +11,7 @@ import com.gwpoc.model.request.OtpRequest;
 import com.gwpoc.model.response.OtpResponse;
 import com.gwpoc.service.SessionService;
 import com.gwpoc.service.SicService;
+import com.gwpoc.service.StatusService;
 
 @Service
 public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
@@ -21,6 +22,8 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 	SessionService sessionServ;
 	@Autowired
 	CommonUtil utils;
+	@Autowired
+	StatusService statusServ;
 	
 	@Override
 	public OtpResponse lunchService_(OtpRequest iRequest, HttpHeaders httpHeaders) {
@@ -34,7 +37,8 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 		//update session per settare in l2 la sicurezza
 		sessionServ.update(utils.updateSessionRequestL2(iRequest.getBt()));
 		
-		response.setAction(ActionEnum.CONSENT);
+		// chiamo la status per vedere se deve creare acc-dispo o lo ha gia setta lei direttamente action
+		response.setAction(statusServ.getStatus(iRequest.getBt()).getAction());
 		
 		return response;
 	}

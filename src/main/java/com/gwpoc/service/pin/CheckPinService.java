@@ -41,9 +41,9 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		
 		if(ObjectUtils.isEmpty(anagrafica) || ObjectUtils.isEmpty(anagrafica.getMailCertificata()))
 			throw new AppException("TODO");
-		// se mail certificata apposto implementare action consetnt
+		// se mail certificata mando action sendotp per sicurezza l2
 		if(anagrafica.getMailCertificata()) {
-			response.setAction(ActionEnum.CONSENT);
+			response.setAction(ActionEnum.SENDOTP);
 			session.createSession(utils.createSessionRequestL1(iRequest.getBt()));
 			return response;
 			

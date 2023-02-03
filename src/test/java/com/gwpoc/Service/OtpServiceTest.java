@@ -12,7 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
+import com.gwpoc.client.IwdbClient;
 import com.gwpoc.client.OtpvClient;
+import com.gwpoc.fragment.iwdb.StatusIwResponse;
 import com.gwpoc.fragment.model.CheckOtpResponse;
 import com.gwpoc.model.request.OtpRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
@@ -35,6 +37,8 @@ public class OtpServiceTest {
 	AnscClient anscClient;
 	@MockBean
 	OtpvClient otpvClient;
+	@MockBean
+	IwdbClient iwdbCLient;
 	
 	
 	@Test
@@ -83,6 +87,17 @@ public class OtpServiceTest {
 		SessionResponse session = new SessionResponse();
 		session.setScope("l2");
 		session.setValid(true);
+		
+		AnagraficaResponse anag = new AnagraficaResponse();
+		anag.setMailCertificata(true);
+		
+		StatusIwResponse statusResp = new StatusIwResponse();
+		statusResp.setMsg("daje");
+		statusResp.setStatus("registered");
+		
+		when(iwdbCLient.getstatus(any())).thenReturn(statusResp);
+		
+		when(anscClient.getAnagrafica(any())).thenReturn(anag);
 		
 		when(otpvClient.checkOtp(any())).thenReturn(otp);
 		

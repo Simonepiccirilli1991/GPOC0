@@ -14,7 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
+import com.gwpoc.client.IwdbClient;
 import com.gwpoc.client.OtpvClient;
+import com.gwpoc.fragment.iwdb.StatusIwResponse;
 import com.gwpoc.model.request.PinRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
 import com.gwpoc.model.response.GenerateOtpResponse;
@@ -38,6 +40,8 @@ public class PinServiceTest {
 	CachClient cach;
 	@MockBean
 	OtpvClient otpv;
+	@MockBean
+	IwdbClient iwdb;
 	
 	@Test
 	public void checkPinTestOK() {
@@ -100,7 +104,7 @@ public class PinServiceTest {
 		
 		PinResponse response = checkPinService.lunchService(request, null);
 		
-		assertThat(response.getAction()).isEqualTo(ActionEnum.CONSENT);
+		assertThat(response.getAction()).isEqualTo(ActionEnum.SENDOTP);
 		
 	}
 	
@@ -115,6 +119,17 @@ public class PinServiceTest {
 		SessionResponse session = new SessionResponse();
 		session.setBt("bt");
 		session.setScope("adad");
+		
+		AnagraficaResponse anag = new AnagraficaResponse();
+		anag.setMailCertificata(true);
+		
+		StatusIwResponse statusResp = new StatusIwResponse();
+		statusResp.setMsg("daje");
+		statusResp.setStatus("registered");
+		
+		when(iwdb.getstatus(any())).thenReturn(statusResp);
+		
+		when(ansc.getAnagrafica(any())).thenReturn(anag);
 		
 		when(cach.getSession(any())).thenReturn(session);
 		
