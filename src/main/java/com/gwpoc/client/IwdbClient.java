@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
+import com.gwpoc.fragment.iwdb.StatusIwResponse;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
@@ -209,5 +210,25 @@ public class IwdbClient {
 		
 		return response;
 	}
-	//
+	// get status
+	public StatusIwResponse getstatus(String bt) {
+		
+		StatusIwResponse response = null;
+		Mono<StatusIwResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/status/"+bt).toUriString();
+		try {
+			iResp = webClient.get()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.retrieve()
+					.bodyToMono(StatusIwResponse.class);
+		}catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+		
+		return response;
+	}
+	
 }

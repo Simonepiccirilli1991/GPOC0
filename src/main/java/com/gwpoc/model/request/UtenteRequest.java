@@ -2,7 +2,9 @@ package com.gwpoc.model.request;
 
 import org.springframework.lang.NonNull;
 
-public class UtenteRequest {
+import com.gwpoc.model.action.BaseActionRequest;
+
+public class UtenteRequest extends BaseActionRequest{
 
 	private String nome;
 	private String cognome;

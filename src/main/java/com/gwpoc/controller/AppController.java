@@ -15,9 +15,11 @@ import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
+import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
 import com.gwpoc.service.AccountService;
 import com.gwpoc.service.OrdiniService;
+import com.gwpoc.service.StatusService;
 import com.gwpoc.service.UtenteService;
 
 @RestController
@@ -30,6 +32,8 @@ public class AppController {
 	AccountService accService;
 	@Autowired
 	OrdiniService ordService;
+	@Autowired
+	StatusService statusService;
 	
 	//utente controller
 	@PostMapping("utente/register")
@@ -68,5 +72,10 @@ public class AppController {
 	@PostMapping("ord/get")
 	public ResponseEntity<Ordini> getOrder(@RequestBody OrdiniRequest request){
 		return new ResponseEntity<>(ordService.getOrdine(request), HttpStatus.OK);
+	}
+	// status controller
+	@PostMapping("status")
+	public ResponseEntity<StatusResponse> getStatus(@RequestBody String bt){
+		return new ResponseEntity<>(statusService.getStatus(bt), HttpStatus.OK);
 	}
 }

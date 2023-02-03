@@ -31,6 +31,7 @@ public class ActionController {
 	}
 	
 	//TODO continuare 
+		// chiamata a status prima di tutto.
 		// flusso -> registra utente su iwdb , poi salvo anagrafica su ansc
 		// chiusa registrazione
 		// faccio login checkpin e setto a l1, controllo se mail e certificata se no certifico.

@@ -8,9 +8,11 @@ public enum ActionEnum {
 	CHANGEPIN("changepin"),
 	CONSENT("consent"),
 	SENDOTP("sendotp"),
+	SENDOTPCERTIFY("sendotpcertify"),
 	CHECKOTP("checkotp"),
 	CERTIFYMAIL("certifymail"),
-	CHANGEMAIL("changemail");
+	CHANGEMAIL("changemail"),
+	REGISTERACCOUNT("registeraccount");
 	
 
 	private final String value;

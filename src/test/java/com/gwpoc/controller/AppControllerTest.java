@@ -21,12 +21,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
+import com.gwpoc.fragment.iwdb.StatusIwResponse;
 import com.gwpoc.fragment.iwdb.UtenteIwResponse;
 import com.gwpoc.fragment.model.Account;
 import com.gwpoc.fragment.model.Ordini;
@@ -35,7 +37,9 @@ import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
+import com.gwpoc.model.response.AnagraficaResponse;
 import com.gwpoc.model.response.SessionResponse;
+import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
 
 @SpringBootTest
@@ -336,5 +340,31 @@ public class AppControllerTest {
 		assertThat(response.getBtAcquirente()).isEqualTo("asasd");
 		
 		
+	}
+	//-------------------status test controller -------------------------------------------//
+	
+	@Test
+	public void getStatusTestOK() throws Exception {
+		
+		AnagraficaResponse anag = new AnagraficaResponse();
+		anag.setMailCertificata(false);
+		
+		StatusIwResponse statusResp = new StatusIwResponse();
+		statusResp.setMsg("daje");
+		statusResp.setStatus("reguster_ac");
+		
+		when(iwdbClient.getstatus(any())).thenReturn(statusResp);
+		
+		when(anscClient.getAnagrafica(any())).thenReturn(anag);
+		
+		String resp = mvc.perform(post("/app/status")
+				.contentType("application/json")
+				.content("bt"))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		StatusResponse response = mapper.readValue(resp, StatusResponse.class);
+		
+		assertThat(response.getMsg()).isEqualTo("daje");
+		assertThat(response.getAction()).isEqualTo(ActionEnum.SENDOTPCERTIFY);
 	}
 }
