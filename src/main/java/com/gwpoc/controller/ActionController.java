@@ -2,6 +2,8 @@ package com.gwpoc.controller;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,13 @@ public class ActionController {
 	@Autowired protected BeanFactory beanFactory;
 	
 	@PostMapping("pin")
-	public PinResponse pinServices(@RequestBody PinRequest request) throws Exception {
-		return beanFactory.getBean(PinCommand.class, request, null).doExcute();
+	public ResponseEntity<PinResponse> pinServices(@RequestBody PinRequest request) throws Exception {
+		return new ResponseEntity<>(beanFactory.getBean(PinCommand.class, request, null).doExcute(), HttpStatus.OK);
 	}
 	
 	@PostMapping("otp")
-	public OtpResponse otpServices(@RequestBody OtpRequest request) throws Exception {		
-		return beanFactory.getBean(OtpCommand.class, request, null).doExcute();
+	public ResponseEntity<OtpResponse> otpServices(@RequestBody OtpRequest request) throws Exception {		
+		return  new ResponseEntity<>(beanFactory.getBean(OtpCommand.class, request, null).doExcute(), HttpStatus.OK);
 	}
 	
 	//TODO continuare 

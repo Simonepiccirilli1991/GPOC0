@@ -17,6 +17,7 @@ public class SessionController {
 	@Autowired
 	SessionService sessService;
 	
+	//------- Sessione di sicurezza -------------------------------//
 	@PostMapping("sess/create")
 	public ResponseEntity<SessionResponse> createSession(@RequestBody SessionRequest request){
 		return new ResponseEntity<>(sessService.createSession(request), HttpStatus.OK);
@@ -25,4 +26,8 @@ public class SessionController {
 	public ResponseEntity<SessionResponse> getSession(@RequestBody SessionRequest request){
 		return new ResponseEntity<>(sessService.getSession(request), HttpStatus.OK);
 	}
+	
+	//------------Sessione Applicativa ----------------------------------------------------//
+	//TODO da creare
+	// creare sessione applicativa dopo consent - sic l2 
 }
