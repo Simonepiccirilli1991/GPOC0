@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gwpoc.fragment.model.Ordini;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
+import com.gwpoc.model.request.PushRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
+import com.gwpoc.model.response.PushResponse;
 import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
 import com.gwpoc.service.AccountService;
 import com.gwpoc.service.OrdiniService;
 import com.gwpoc.service.StatusService;
 import com.gwpoc.service.UtenteService;
+import com.gwpoc.service.push.PushService;
 
 @RestController
 @RequestMapping("app")
@@ -34,19 +37,18 @@ public class AppController {
 	OrdiniService ordService;
 	@Autowired
 	StatusService statusService;
+	@Autowired
+	PushService pushService;
 	
 	//utente controller
 	@PostMapping("utente/register")
 	public ResponseEntity<UtenteResponse> registyUtente(@RequestBody UtenteRequest request){	
 		return new ResponseEntity<>(utenteService.registra(request), HttpStatus.OK);
 	}
-	
 	@PostMapping("utente/update")
-	public ResponseEntity<UtenteResponse> updateUtente(@RequestBody UtenteRequest request){
-		
+	public ResponseEntity<UtenteResponse> updateUtente(@RequestBody UtenteRequest request){	
 		return new ResponseEntity<>(utenteService.update(request), HttpStatus.OK);
 	}
-	
 	@PostMapping("/utente/get")
 	public ResponseEntity<UtenteResponse> getUtente(@RequestBody String bt){
 		return new ResponseEntity<>(utenteService.getUtente(bt),HttpStatus.OK);
@@ -77,5 +79,18 @@ public class AppController {
 	@PostMapping("status")
 	public ResponseEntity<StatusResponse> getStatus(@RequestBody String bt){
 		return new ResponseEntity<>(statusService.getStatus(bt), HttpStatus.OK);
+	}
+	//push controller
+	@PostMapping("push/send")
+	public ResponseEntity<PushResponse> sendPush(@RequestBody PushRequest request){
+		return new ResponseEntity<>(pushService.sendPush(request.getBt()), HttpStatus.OK);
+	}
+	@PostMapping("push/confirm")
+	public ResponseEntity<PushResponse> acceptPush(@RequestBody PushRequest request){
+		return new ResponseEntity<>(pushService.acceptPush(request.getBt()), HttpStatus.OK);
+	}
+	@PostMapping("push/get")
+	public ResponseEntity<PushResponse> getPushPolling(@RequestBody PushRequest request){
+		return new ResponseEntity<>(pushService.getStatusPush(request), HttpStatus.OK);
 	}
 }

@@ -74,4 +74,30 @@ public class OtpvPushClient {
 		
 		return response;
 	}
+	//GET push status
+	public PushResponse getStatusPush(PushRequest request) {
+
+		PushResponse response = null;
+		Mono<PushResponse> iResp = null;
+		
+		String uri = UriComponentsBuilder.fromHttpUrl(otpvUri + "/push/get").toUriString();
+		try {
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), PushRequest.class)
+					.retrieve()
+					.bodyToMono(PushResponse.class);
+		}
+		catch(Exception e) {
+			throw new AppException("");
+		}
+		response = iResp.block();
+
+		if(ObjectUtils.isEmpty(response)|| ObjectUtils.isEmpty(response.getStatus()))
+			throw new AppException("TODO");
+		
+		return response;
+	}
 }

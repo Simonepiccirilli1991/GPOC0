@@ -37,5 +37,18 @@ public class PushService {
 		return response;
 	}
 	
-	//TODO impkementare get status push con polling
+//--------GET status PUSH POLLING---------------------------------------------------//
+	public PushResponse getStatusPush(PushRequest request) {
+		
+		PushResponse response = new PushResponse();
+		while(true) {
+			
+			response = pushCLient.getStatusPush(request);
+			if(! response.getStatus().equals("pending"))
+				break;
+		}
+		
+		return response;
+	}
+	
 }

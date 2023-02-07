@@ -25,6 +25,7 @@ import com.gwpoc.Util.ActionEnum;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
+import com.gwpoc.client.OtpvPushClient;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
@@ -35,9 +36,11 @@ import com.gwpoc.fragment.model.Ordini;
 import com.gwpoc.fragment.model.Utente;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.OrdiniRequest;
+import com.gwpoc.model.request.PushRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
 import com.gwpoc.model.response.AnagraficaResponse;
+import com.gwpoc.model.response.PushResponse;
 import com.gwpoc.model.response.SessionResponse;
 import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
@@ -46,6 +49,8 @@ import com.gwpoc.model.response.UtenteResponse;
 @AutoConfigureMockMvc
 public class AppControllerTest {
 	
+	@MockBean
+	OtpvPushClient pushCLient;
 	@MockBean
 	AnscClient anscClient;
 	@MockBean
@@ -366,5 +371,82 @@ public class AppControllerTest {
 		
 		assertThat(response.getMsg()).isEqualTo("daje");
 		assertThat(response.getAction()).isEqualTo(ActionEnum.SENDOTPCERTIFY);
+	}
+	
+	//--------------------------- push test controller
+	
+	@Test
+	public void sendPushTestOK() throws Exception {
+		
+		PushRequest request = new PushRequest();
+		request.setBancaId("blabla");
+		request.setBt("bt");
+		
+		PushResponse iResp = new PushResponse();
+		iResp.setSended(true);
+		iResp.setMsg("Push inviata");
+		
+		when(pushCLient.sendPush(any(PushRequest.class))).thenReturn(iResp);
+		
+		String resp = mvc.perform(post("/app/push/send")
+				.contentType("application/json")
+				.content(mapper.writeValueAsString(request)))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		PushResponse response = mapper.readValue(resp, PushResponse.class);
+		
+		assertThat(response.getSended()).isTrue();
+	}
+	
+	@Test
+	public void acceptPushTestOK() throws Exception {
+		
+		PushRequest request = new PushRequest();
+		request.setBancaId("blabla");
+		request.setBt("bt");
+		
+		PushResponse iResp = new PushResponse();
+		iResp.setSended(true);
+		iResp.setAcepted(true);
+		iResp.setMsg("Push accetata");
+		
+		when(pushCLient.acceptPush(any(PushRequest.class))).thenReturn(iResp);
+		
+		String resp = mvc.perform(post("/app/push/confirm")
+				.contentType("application/json")
+				.content(mapper.writeValueAsString(request)))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		PushResponse response = mapper.readValue(resp, PushResponse.class);
+		
+		assertThat(response.getAcepted()).isTrue();
+		
+	}
+	
+	@Test
+	public void getPushStatus() throws Exception {
+		
+		PushRequest request = new PushRequest();
+		request.setBancaId("blabla");
+		request.setBt("bt");
+		
+		PushResponse iResp = new PushResponse();
+		iResp.setSended(true);
+		iResp.setAcepted(true);
+		iResp.setStatus("daje");
+		iResp.setMsg("Push accetata");
+		
+		when(pushCLient.getStatusPush(any(PushRequest.class))).thenReturn(iResp);
+		
+		String resp = mvc.perform(post("/app/push/get")
+				.contentType("application/json")
+				.content(mapper.writeValueAsString(request)))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		PushResponse response = mapper.readValue(resp, PushResponse.class);
+		
+		assertThat(response.getAcepted()).isTrue();
+		assertThat(response.getStatus()).isEqualTo("daje");
+		
 	}
 }
