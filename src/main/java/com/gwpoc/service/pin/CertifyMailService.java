@@ -1,5 +1,7 @@
 package com.gwpoc.service.pin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import com.gwpoc.model.response.SessionResponse;
 import com.gwpoc.service.SessionService;
 import com.gwpoc.service.SicService;
 import com.gwpoc.service.StatusService;
+import com.gwpoc.service.otp.CheckOtpService;
 
 @Service
 public class CertifyMailService extends BaseActionService<PinRequest, PinResponse>{
@@ -29,8 +32,12 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 	@Autowired
 	StatusService statusServ;
 	
+	Logger logger = LoggerFactory.getLogger(CertifyMailService.class);
+	
 	@Override
 	public PinResponse lunchService_(PinRequest iRequest, HttpHeaders httpHeaders) {
+		
+		logger.info("API :CertifyMailService - START with raw request: {}", iRequest);
 		
 		PinResponse response = new PinResponse();
 		//fatto sta porcata perchè non mi va di refactorare i metodi
@@ -39,14 +46,17 @@ public class CertifyMailService extends BaseActionService<PinRequest, PinRespons
 		//controllo che sessione sia creata
 		SessionResponse sessResponse = session.getSession(utils.createSessionRequestL1(iReq.getBt()));
 		
-		if(ObjectUtils.isEmpty(sessResponse) || ObjectUtils.isEmpty(sessResponse.getScope()))
+		if(ObjectUtils.isEmpty(sessResponse) || ObjectUtils.isEmpty(sessResponse.getScope())) {
+			logger.error("Client :CertifyMailService - EXCEPTION cause by session : {}", sessResponse);
 			throw new AppException("No session valid found");
-			
+		}	
 		sicurezza.certifyMail(iReq);
 		
 		//updato sessione di sicurezza
 		session.update(utils.updateSessionRequestL2(iRequest.getBt()));
 		response.setAction(statusServ.getStatus(iRequest.getBt()).getAction());
+		
+		logger.info("API :CertifyMailService - END with response: {}", response);
 		return response;
 	}
 

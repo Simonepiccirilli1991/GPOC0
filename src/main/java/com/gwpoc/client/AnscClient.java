@@ -1,5 +1,7 @@
 package com.gwpoc.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import com.gwpoc.fragment.model.AnagraficaRequest;
 import com.gwpoc.fragment.model.SicRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
 import com.gwpoc.model.response.SicResponse;
+import com.gwpoc.service.AccountService;
 
 import reactor.core.publisher.Mono;
 
@@ -20,11 +23,15 @@ public class AnscClient {
 	@Value("${config.ansc0.end-point}")
 	private String anscUri;
 	
+	Logger logger = LoggerFactory.getLogger(AnscClient.class);
+	
 	WebClient webClient = WebClient.create(anscUri);
 
 	// insert anagrafica
 	public void insertAnagrafica(AnagraficaRequest request) {
-
+		
+		logger.info("CLIENT :AnscClient - insertAnag -  START with raw request: {}", request);
+		
 		AnagraficaResponse response = null;
 		Mono<AnagraficaResponse> iResp = null;
 		
@@ -39,6 +46,7 @@ public class AnscClient {
 					.bodyToMono(AnagraficaResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : AnscClient - insertAnagrafica - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
@@ -46,10 +54,13 @@ public class AnscClient {
 		if(Boolean.TRUE.equals(response.isError()))
 				throw new AppException(response.getErrMsg());
 		
+		logger.info("CLIENT :AnscClient - insertAnag -  END response: {}", response);
+		
 	}
 	// get anagrafica
 	public AnagraficaResponse getAnagrafica(String bt) {
-
+		logger.info("CLIENT :AnscClient - getAnagrafica -  START with raw request: {}", bt);
+		
 		AnagraficaResponse response = null;
 		Mono<AnagraficaResponse> iResp = null;
 		
@@ -62,6 +73,7 @@ public class AnscClient {
 					.bodyToMono(AnagraficaResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : AnscClient - getAnagrafica - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
@@ -69,12 +81,14 @@ public class AnscClient {
 		if(Boolean.TRUE.equals(response.isError()))
 				throw new AppException(response.getErrMsg());
 		
+		logger.info("CLIENT :AnscClient - getAnagrafica -  END response: {}", response);
 		return response;
 	}
 	
 	//certifyMail
 	public void certifyMail(SicRequest request) {
-
+		logger.info("CLIENT :AnscClient - certifyMail -  START with raw request: {}", request);
+		
 		SicResponse response = null;
 		Mono<SicResponse> iResp = null;
 		
@@ -89,6 +103,7 @@ public class AnscClient {
 					.bodyToMono(SicResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : AnscClient - certifyMail - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
@@ -96,10 +111,13 @@ public class AnscClient {
 		if(Boolean.TRUE.equals(response.isError()))
 				throw new AppException(response.getErrMsg());
 		
+		logger.info("CLIENT :AnscClient - certifyMail -  END response: {}", response);
+		
 	}
 	//checkPin
 	public void checkPin(SicRequest request) {
-
+		logger.info("CLIENT :AnscClient - checkPin -  START with raw request: {}", request);
+		
 		SicResponse response = null;
 		Mono<SicResponse> iResp = null;
 		
@@ -114,6 +132,7 @@ public class AnscClient {
 					.bodyToMono(SicResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : AnscClient - checkPin - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
@@ -121,10 +140,13 @@ public class AnscClient {
 		if(Boolean.TRUE.equals(response.isError()))
 				throw new AppException(response.getErrMsg());
 		
+		logger.info("CLIENT :AnscClient - checkPin -  END response: {}", response);
+		
 	}
 	//changePin
 	public void changePin(SicRequest request) {
-
+		logger.info("CLIENT :AnscClient - changePin -  START with raw request: {}", request);
+		
 		SicResponse response = null;
 		Mono<SicResponse> iResp = null;
 		
@@ -139,6 +161,7 @@ public class AnscClient {
 					.bodyToMono(SicResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : AnscClient - changePin - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
@@ -146,5 +169,6 @@ public class AnscClient {
 		if(Boolean.TRUE.equals(response.isError()))
 				throw new AppException("TODO");
 		
+		logger.info("CLIENT :AnscClient - changePin -  END response: {}", response);
 	}
 }

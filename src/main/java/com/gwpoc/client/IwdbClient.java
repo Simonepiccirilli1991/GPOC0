@@ -1,5 +1,7 @@
 package com.gwpoc.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -25,10 +27,12 @@ public class IwdbClient {
 	private String iwdbUri;
 	
 	WebClient webClient = WebClient.create(iwdbUri);
-
+	Logger logger = LoggerFactory.getLogger(IwdbClient.class);
+	
 	// registra utente
 	public UtenteIwResponse registraUt(UtenteRequest request) {
-
+		logger.info("CLIENT :IwdbClient - registraUt -  START with raw request: {}", request);
+		
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
 		
@@ -43,15 +47,18 @@ public class IwdbClient {
 					.bodyToMono(UtenteIwResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : IwdbClient - registraUt - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
-
+		
+		logger.info("CLIENT :IwdbClient - registraUt -  END response: {}", response);
 		return response;
 	}
 	// update utente
 	public UtenteIwResponse updateUtente(UtenteRequest request) {
-
+		logger.info("CLIENT :IwdbClient - updateUtente -  START with raw request: {}", request);
+		
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
 		
@@ -66,16 +73,18 @@ public class IwdbClient {
 					.bodyToMono(UtenteIwResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : IwdbClient - updateUtente - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
 
-
+		logger.info("CLIENT :IwdbClient - updateUtente -  END response: {}", response);
 		return response;
 	}
 	//get utente
 	public UtenteIwResponse getUtente(String bt) {
-
+		logger.info("CLIENT :IwdbClient - getUtente -  START with raw request: {}", bt);
+		
 		UtenteIwResponse response = null;
 		Mono<UtenteIwResponse> iResp = null;
 		
@@ -88,17 +97,20 @@ public class IwdbClient {
 					.bodyToMono(UtenteIwResponse.class);
 		}
 		catch(Exception e) {
+			logger.error("Client : IwdbClient - getUtente - EXCEPTION", e);
 			throw new AppException("");
 		}
 
 		response = iResp.block();
-
+		
+		logger.info("CLIENT :IwdbClient - getUtente -  END response: {}", response);
 		return response;
 	}
 	
 	// account calls
 	// insert account
 	public AccountIwResponse insertAccount(AccountRequest request) {
+		logger.info("CLIENT :IwdbClient - insertAccount -  START with raw request: {}", request);
 		
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
@@ -114,15 +126,17 @@ public class IwdbClient {
 					.bodyToMono(AccountIwResponse.class);
 			
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - insertAccount - EXCEPTION", e);
 			throw new AppException("");
 		}		
 		response = iResp.block();
 		
+		logger.info("CLIENT :IwdbClient - insertAccount -  END response: {}", response);
 		return response;
 	}
 	//update account
 	public AccountIwResponse updateAcc(AccountRequest request) {
-
+		logger.info("CLIENT :IwdbClient - updateAcc -  START with raw request: {}", request);
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
 		
@@ -137,15 +151,17 @@ public class IwdbClient {
 					.bodyToMono(AccountIwResponse.class);
 
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - updateAcc - EXCEPTION", e);
 			throw new AppException("");
 		}		
 		response = iResp.block();
-
+		
+		logger.info("CLIENT :IwdbClient - updateAcc -  END response: {}", response);
 		return response;
 	}
 	//get account
 	public AccountIwResponse getAcc(String bt) {
-
+		logger.info("CLIENT :IwdbClient - getAcc -  START with raw request: {}", bt);
 		AccountIwResponse response = null;
 		Mono<AccountIwResponse> iResp = null;	
 		
@@ -158,17 +174,19 @@ public class IwdbClient {
 					.bodyToMono(AccountIwResponse.class);
 
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - getAcc - EXCEPTION", e);
 			throw new AppException("");
 		}		
 		response = iResp.block();
-
+		
+		logger.info("CLIENT :IwdbClient - getAcc -  END response: {}", response);
 		return response;
 	}
 	
 	// orderCall
 	//createOrder
 	public OrdiniIwResponse creaOrdine(OrdiniRequest request) {
-		
+		logger.info("CLIENT :IwdbClient - creaOrdine -  START with raw request: {}", request);
 		OrdiniIwResponse response = null;
 		Mono<OrdiniIwResponse> iResp = null;
 		
@@ -182,15 +200,17 @@ public class IwdbClient {
 					.retrieve()
 					.bodyToMono(OrdiniIwResponse.class);
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - creaOrdine - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
 		
+		logger.info("CLIENT :IwdbClient - creaOrdine -  END response: {}", response);
 		return response;
 	}
 	// get order
 	public OrdiniIwResponse getOrder(OrdiniRequest request) {
-		
+		logger.info("CLIENT :IwdbClient - getOrder -  START with raw request: {}", request);
 		OrdiniIwResponse response = null;
 		Mono<OrdiniIwResponse> iResp = null;
 		
@@ -204,15 +224,17 @@ public class IwdbClient {
 					.retrieve()
 					.bodyToMono(OrdiniIwResponse.class);
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - getOrder - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
 		
+		logger.info("CLIENT :IwdbClient - getOrder -  END response: {}", response);
 		return response;
 	}
 	// get status
 	public StatusIwResponse getstatus(String bt) {
-		
+		logger.info("CLIENT :IwdbClient - getstatus -  START with raw request: {}", bt);
 		StatusIwResponse response = null;
 		Mono<StatusIwResponse> iResp = null;
 		
@@ -224,10 +246,12 @@ public class IwdbClient {
 					.retrieve()
 					.bodyToMono(StatusIwResponse.class);
 		}catch(Exception e) {
+			logger.error("Client : IwdbClient - getstatus - EXCEPTION", e);
 			throw new AppException("");
 		}
 		response = iResp.block();
 		
+		logger.info("CLIENT :IwdbClient - getstatus -  END response: {}", response);
 		return response;
 	}
 	

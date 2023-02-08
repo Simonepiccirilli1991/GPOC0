@@ -34,5 +34,10 @@ public class PinRequest extends BaseActionRequest{
 		this.pin = pin;
 	}
 	
+	@Override
+	public String toString() {
+		return "PinRequest [bt=" + bt + ", otp=" + otp + ", trxId=" + trxId + ", pin=" + pin + "]";
+	}
+	
 	
 }

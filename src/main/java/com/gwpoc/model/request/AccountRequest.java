@@ -37,6 +37,12 @@ public class AccountRequest {
 		this.debito = debito;
 	}
 	
+	@Override
+	public String toString() {
+		return "AccountRequest [bt=" + bt + ", importo=" + importo + ", tipoAccount=" + tipoAccount + ", debito="
+				+ debito + "]";
+	}
+	
 	
 	
 	

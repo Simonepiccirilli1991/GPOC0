@@ -19,7 +19,7 @@ public class ErrorController {
 	public ResponseEntity<BaseError> actionError(String errorCode){
 		
 		
-		ResponseEntity<BaseError> response = new ResponseEntity<BaseError>(errorMapper(errorCode).getHttpStatus());
+		ResponseEntity<BaseError> response = new ResponseEntity<>(errorMapper(errorCode).getHttpStatus());
 		response.getBody().setChiamante(GENERIC);
 		response.getBody().setErrorMsg(errorMapper(errorCode).getErrCode());
 		response.getBody().setErrorTp(errorCode);

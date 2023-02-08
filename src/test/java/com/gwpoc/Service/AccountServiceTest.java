@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.gwpoc.Gpoc0Application;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
@@ -20,7 +21,7 @@ import com.gwpoc.model.response.AccountResponse;
 import com.gwpoc.model.response.SessionResponse;
 import com.gwpoc.service.AccountService;
 
-@SpringBootTest
+@SpringBootTest(classes = Gpoc0Application.class)
 public class AccountServiceTest {
 	
 	@Autowired

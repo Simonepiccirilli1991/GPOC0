@@ -20,5 +20,10 @@ public class PinResponse extends BaseActionResponse{
 		this.trxId = trxId;
 	}
 	
+	@Override
+	public String toString() {
+		return "PinResponse [email=" + email + ", trxId=" + trxId + "]";
+	}
+	
 	
 }

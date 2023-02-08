@@ -25,4 +25,10 @@ public class GenerateOtpResponse {
 		this.msg = msg;
 	}
 	
+	@Override
+	public String toString() {
+		return "GenerateOtpResponse [otpSend=" + otpSend + ", trxId=" + trxId + ", msg=" + msg + "]";
+	}
+	
+	
 }

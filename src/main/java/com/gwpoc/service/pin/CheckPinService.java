@@ -1,5 +1,7 @@
 package com.gwpoc.service.pin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -28,8 +30,14 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 	SessionService session;
 	@Autowired
 	CommonUtil utils;
+	
+	Logger logger = LoggerFactory.getLogger(CheckPinService.class);
+	
+	
 	@Override
 	public PinResponse lunchService_(PinRequest iRequest, HttpHeaders httpHeaders) {
+		
+		logger.info("API :CheckPinService - START with raw request: {}", iRequest);
 		
 		PinResponse response = new PinResponse();
 		//fatto sta porcata perchè non mi va di refactorare i metodi
@@ -39,13 +47,14 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		
 		AnagraficaResponse anagrafica = anag.getAnagrafica(iRequest.getBt());
 		
-		if(ObjectUtils.isEmpty(anagrafica) || ObjectUtils.isEmpty(anagrafica.getMailCertificata()))
+		if(ObjectUtils.isEmpty(anagrafica) || ObjectUtils.isEmpty(anagrafica.getMailCertificata())) {
+			logger.error("Client :CheckPinService - EXCEPTION cause by anagrafica : {}", anagrafica);
 			throw new AppException("TODO");
+		}
 		// se mail certificata mando action sendotp per sicurezza l2
 		if(anagrafica.getMailCertificata()) {
 			response.setAction(ActionEnum.SENDOTP);
 			session.createSession(utils.createSessionRequestL1(iRequest.getBt()));
-			return response;
 			
 		}
 		// se non certificata deve certificare e mando otp alla mail salvata su anagrafica 
@@ -54,8 +63,10 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 			response.setEmail(anagrafica.getMail());
 			String trxId = sicurezza.genrateOtpMock(utils.createOtpRequest(iRequest.getBt(), anagrafica.getMail())).getTrxId();
 			response.setTrxId(trxId);
-			return response;
 		}
+		
+		logger.info("API :CheckPinService - END with response: {}", response);
+		return response;
 	}
 
 	

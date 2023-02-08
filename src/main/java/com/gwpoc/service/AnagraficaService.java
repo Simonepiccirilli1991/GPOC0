@@ -1,5 +1,7 @@
 package com.gwpoc.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,13 @@ public class AnagraficaService {
 
 	@Autowired
 	AnscClient ansc;
+	
+	Logger logger = LoggerFactory.getLogger(AnagraficaService.class);
+	
 	// usato in registrazione utente
 	public void insertAnagrafica(UtenteRequest request, String bt) {
+		
+		logger.info("API :AnagraficaService - insert -  START with raw request: {} , and bt {}", request, bt);
 		
 		AnagraficaRequest iRequest = new AnagraficaRequest();
 		iRequest.setBancaId(request.getBancaId());
@@ -28,13 +35,16 @@ public class AnagraficaService {
 		iRequest.setPin("1111");
 		
 		ansc.insertAnagrafica(iRequest);
+		logger.info("API :AnagraficaService - insert - END completed");
 	}
 	
 	
 	public AnagraficaResponse getAnagrafica(String bt) {
+		logger.info("API :AnagraficaService - get -  START with raw request: {}", bt);
 		
 		AnagraficaResponse response = ansc.getAnagrafica(bt);
 		
+		logger.info("API :AnagraficaService - get - END with response : {}", response);
 		return response;
 	}
 }

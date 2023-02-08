@@ -1,5 +1,7 @@
 package com.gwpoc.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -16,12 +18,17 @@ import com.gwpoc.service.otp.GenerateOtpService;
 @Scope("prototype")
 public class OtpCommand extends BaseActionCommand<OtpRequest, OtpResponse>{
 
+	Logger logger = LoggerFactory.getLogger(OtpCommand.class);
+	
 	public OtpCommand(OtpRequest iRequest, HttpHeaders httpHeaders) {
 		super(iRequest, httpHeaders);
 		// TODO Auto-generated constructor stub
 	}
 	
 	public OtpResponse doExcute() throws Exception{
+		
+		logger.info("API :OtpCommand - raw request before command execution: {}", iRequest);
+		
 		switch (iRequest.getAction()) {
 		// chiama alla status di wiam
 			case SENDOTP:

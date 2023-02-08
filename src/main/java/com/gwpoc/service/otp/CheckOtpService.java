@@ -1,5 +1,7 @@
 package com.gwpoc.service.otp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,12 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 	@Autowired
 	StatusService statusServ;
 	
+	Logger logger = LoggerFactory.getLogger(CheckOtpService.class);
+	
 	@Override
 	public OtpResponse lunchService_(OtpRequest iRequest, HttpHeaders httpHeaders) {
+		
+		logger.info("API :CheckOtpService - START with raw request: {}", iRequest);
 		
 		OtpResponse response = new OtpResponse();
 		
@@ -39,6 +45,7 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 		
 		// chiamo la status per vedere se deve creare acc-dispo o lo ha gia setta lei direttamente action
 		response.setAction(statusServ.getStatus(iRequest.getBt()).getAction());
+		logger.info("API :CheckOtpService - END with response: {}", response);
 		
 		return response;
 	}

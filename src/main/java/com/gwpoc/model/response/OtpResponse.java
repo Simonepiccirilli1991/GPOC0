@@ -20,5 +20,10 @@ public class OtpResponse extends BaseActionResponse{
 		this.msg = msg;
 	}
 	
+	@Override
+	public String toString() {
+		return "OtpResponse [trxId=" + trxId + ", msg=" + msg + "]";
+	}
+	
 	
 }

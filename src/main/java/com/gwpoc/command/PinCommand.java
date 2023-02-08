@@ -1,5 +1,7 @@
 package com.gwpoc.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -18,11 +20,16 @@ import com.gwpoc.service.pin.CheckPinService;
 @Scope("prototype")
 public class PinCommand extends BaseActionCommand<PinRequest, PinResponse>{
 
+	Logger logger = LoggerFactory.getLogger(PinCommand.class);
+	
 	public PinCommand(PinRequest iRequest, HttpHeaders header) {
 		super(iRequest, header);
 	}
 
 	public PinResponse doExcute() throws Exception{
+		
+		logger.info("API :PinCommand - raw request before command execution: {}", iRequest);
+		
 		switch (iRequest.getAction()) {
 		// chiama alla status di wiam
 			case CHECKPIN:

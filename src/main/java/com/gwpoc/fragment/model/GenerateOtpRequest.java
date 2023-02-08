@@ -45,6 +45,11 @@ public class GenerateOtpRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@Override
+	public String toString() {
+		return "GenerateOtpRequest [bt=" + bt + ", abi=" + abi + ", transactionId=" + transactionId + ", tipoEvento="
+				+ tipoEvento + ", prof=" + prof + ", email=" + email + "]";
+	}
 	
 	
 }

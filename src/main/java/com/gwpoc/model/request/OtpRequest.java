@@ -34,5 +34,10 @@ public class OtpRequest extends BaseActionRequest{
 		this.otp = otp;
 	}
 	
+	@Override
+	public String toString() {
+		return "OtpRequest [bt=" + bt + ", email=" + email + ", trxId=" + trxId + ", otp=" + otp + "]";
+	}
+	
 	
 }

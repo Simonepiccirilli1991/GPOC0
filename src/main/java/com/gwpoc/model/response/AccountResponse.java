@@ -19,6 +19,10 @@ public class AccountResponse {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	@Override
+	public String toString() {
+		return "AccountResponse [done=" + done + ", account=" + account + "]";
+	}
 	
 	
 }
