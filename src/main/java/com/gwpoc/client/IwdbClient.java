@@ -37,19 +37,19 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/inserts").toUriString();
-		try {
+		
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
 					.retrieve()
-					.bodyToMono(UtenteIwResponse.class);
-		}
-		catch(Exception e) {
-			logger.error("Client : IwdbClient - registraUt - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(UtenteIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - registraUt - EXCEPTION", e);
+	                    return new AppException("Error inserting account");
+	                });
+		
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - registraUt -  END response: {}", response);
@@ -63,19 +63,19 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/update").toUriString();
-		try {
+		
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), UtenteRequest.class)
 					.retrieve()
-					.bodyToMono(UtenteIwResponse.class);
-		}
-		catch(Exception e) {
-			logger.error("Client : IwdbClient - updateUtente - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(UtenteIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - updateUtente - EXCEPTION", e);
+	                    return new AppException("Error inserting account");
+	                });
+
 		response = iResp.block();
 
 		logger.info("CLIENT :IwdbClient - updateUtente -  END response: {}", response);
@@ -89,17 +89,16 @@ public class IwdbClient {
 		Mono<UtenteIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/get/"+bt).toUriString();
-		try {
+		
 			iResp = webClient.get()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
-					.bodyToMono(UtenteIwResponse.class);
-		}
-		catch(Exception e) {
-			logger.error("Client : IwdbClient - getUtente - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(UtenteIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - getUtente - EXCEPTION", e);
+	                    return new AppException("Error inserting account");
+	                });
 
 		response = iResp.block();
 		
@@ -116,19 +115,18 @@ public class IwdbClient {
 		Mono<AccountIwResponse> iResp = null;	
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/insert").toUriString();
-		try {	
+
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), AccountRequest.class)
 					.retrieve()
-					.bodyToMono(AccountIwResponse.class);
-			
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - insertAccount - EXCEPTION", e);
-			throw new AppException("");
-		}		
+					.bodyToMono(AccountIwResponse.class)
+					.onErrorMap(e -> {
+	                    logger.error("Client : IwdbClient - insertAccount - EXCEPTION", e);
+	                    return new AppException("Error inserting account");
+	                });
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - insertAccount -  END response: {}", response);
@@ -141,19 +139,18 @@ public class IwdbClient {
 		Mono<AccountIwResponse> iResp = null;	
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/update").toUriString();
-		try {	
+	
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), AccountRequest.class)
 					.retrieve()
-					.bodyToMono(AccountIwResponse.class);
-
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - updateAcc - EXCEPTION", e);
-			throw new AppException("");
-		}		
+					.bodyToMono(AccountIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - updateAcc - EXCEPTION", e);
+	                    return new AppException("Error updating account");
+	                });
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - updateAcc -  END response: {}", response);
@@ -166,17 +163,17 @@ public class IwdbClient {
 		Mono<AccountIwResponse> iResp = null;	
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/get"+bt).toUriString();
-		try {	
+	
 			iResp = webClient.get()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
-					.bodyToMono(AccountIwResponse.class);
-
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - getAcc - EXCEPTION", e);
-			throw new AppException("");
-		}		
+					.bodyToMono(AccountIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - getAcc - EXCEPTION", e);
+	                    return new AppException("Error updating account");
+	                });
+			
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - getAcc -  END response: {}", response);
@@ -191,18 +188,19 @@ public class IwdbClient {
 		Mono<OrdiniIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ordini/insert").toUriString();
-		try {
+		
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), OrdiniRequest.class)
 					.retrieve()
-					.bodyToMono(OrdiniIwResponse.class);
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - creaOrdine - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(OrdiniIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - creaOrdine - EXCEPTION", e);
+	                    return new AppException("Error updating account");
+	                });		
+		
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - creaOrdine -  END response: {}", response);
@@ -215,18 +213,18 @@ public class IwdbClient {
 		Mono<OrdiniIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ordini/get").toUriString();
-		try {
+
 			iResp = webClient.post()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(Mono.just(request), OrdiniRequest.class)
 					.retrieve()
-					.bodyToMono(OrdiniIwResponse.class);
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - getOrder - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(OrdiniIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - getOrder - EXCEPTION", e);
+	                    return new AppException("Error updating account");
+	                });	
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - getOrder -  END response: {}", response);
@@ -239,16 +237,17 @@ public class IwdbClient {
 		Mono<StatusIwResponse> iResp = null;
 		
 		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/ut/status/"+bt).toUriString();
-		try {
+		
 			iResp = webClient.get()
 					.uri(uri)
 					.accept(MediaType.APPLICATION_JSON)
 					.retrieve()
-					.bodyToMono(StatusIwResponse.class);
-		}catch(Exception e) {
-			logger.error("Client : IwdbClient - getstatus - EXCEPTION", e);
-			throw new AppException("");
-		}
+					.bodyToMono(StatusIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - getstatus - EXCEPTION", e);
+	                    return new AppException("Error updating account");
+	                });	
+			
 		response = iResp.block();
 		
 		logger.info("CLIENT :IwdbClient - getstatus -  END response: {}", response);

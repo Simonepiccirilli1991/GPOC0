@@ -16,15 +16,16 @@ public class ErrorController {
 	private static final String GENERIC = "gwgp0.generic";
 	
 	@ExceptionHandler(AppException.class)
-	public ResponseEntity<BaseError> actionError(String errorCode){
+	public ResponseEntity<BaseError> actionError(AppException ex){
 		
 		
-		ResponseEntity<BaseError> response = new ResponseEntity<>(errorMapper(errorCode).getHttpStatus());
-		response.getBody().setChiamante(GENERIC);
-		response.getBody().setErrorMsg(errorMapper(errorCode).getErrCode());
-		response.getBody().setErrorTp(errorCode);
-		response.getBody().setHttpS(errorMapper(errorCode).getHttpStatus());
-		return response; 
+		BaseError response = new BaseError();
+		
+		ErrorMapperDTO dto = errorMapper(ex.getErrorCode());
+		response.setErrorMsg(dto.getErrCode());
+		response.setErrorTp(ex.getErrorCode());
+		response.setHttpS(dto.getHttpStatus());
+		return new ResponseEntity<>(response, dto.getHttpStatus());
 	}
 	
 	
@@ -39,7 +40,7 @@ public class ErrorController {
 		switch (errId) {
 			case "ERKO-02": case "ERKO-03":
 			case "ERKO-04":			httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Invalid data provided";			break;
-			
+			case "Error inserting account":  httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Need to register first";	break;
 			case "ERKO-10":         httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "U need to login first";			break;
 			default:
 				errCode = GENERIC;
