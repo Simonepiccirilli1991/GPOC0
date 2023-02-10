@@ -47,7 +47,7 @@ public class IwdbClient {
 					.bodyToMono(UtenteIwResponse.class)
 					.onErrorMap(e -> {
 						logger.error("Client : IwdbClient - registraUt - EXCEPTION", e);
-	                    return new AppException("Error inserting account");
+	                    return new AppException(e.getMessage());
 	                });
 		
 		response = iResp.block();
@@ -123,11 +123,14 @@ public class IwdbClient {
 					.body(Mono.just(request), AccountRequest.class)
 					.retrieve()
 					.bodyToMono(AccountIwResponse.class)
-					.onErrorMap(e -> {
+					.onErrorMap(e -> { 
 	                    logger.error("Client : IwdbClient - insertAccount - EXCEPTION", e);
-	                    return new AppException("Error inserting account");
+	                    return new AppException(e.getMessage());
 	                });
 		response = iResp.block();
+		
+		if(!ObjectUtils.isEmpty(response.isError()) && response.isError())
+			throw new AppException(response.getCodiceEsito());
 		
 		logger.info("CLIENT :IwdbClient - insertAccount -  END response: {}", response);
 		return response;
