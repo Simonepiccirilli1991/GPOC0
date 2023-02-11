@@ -38,12 +38,13 @@ public class ErrorController {
 		HttpStatus httpStatus = HttpStatus.FORBIDDEN;
 
 		switch (errId) {
-			case "ERKO-01":			httpStatus = HttpStatus.CONFLICT;	logicErrId = "No registered account , no utente associated";			break;
-			case "ERKO-02":         
-			case "ERKO-03":
-			case "ERKO-04":			httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Invalid data provided";			break;
-			case "Error inserting account":  httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Need to register first";	break;
-			case "ERKO-10":         httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "U need to login first";			break;
+			case "ERKO-00":     	httpStatus = HttpStatus.BAD_REQUEST;logicErrId = "Invalid request, missing parameter";			break;
+			case "ERKO-01":			httpStatus = HttpStatus.CONFLICT;	logicErrId = "Error on saving data , retry after";			break;
+			case "ERKO-02":         httpStatus = HttpStatus.CONFLICT;   logicErrId = "Error on retriving data , retry after";		break;
+			case "ERKO-03":			httpStatus = HttpStatus.FAILED_DEPENDENCY;logicErrId = "Error on updating data";		   		break;
+			case "ERKO-04":			httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Invalid data provided";					break;
+			case "Error inserting account":  httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "Need to register first";			break;
+			case "ERKO-10":         httpStatus = HttpStatus.UNAUTHORIZED;	logicErrId = "U need to login first";					break;
 			default:
 				errCode = GENERIC;
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
