@@ -11,3 +11,5 @@ config:
     end-point: ${ANSC0_ENDPOINT:http://localhost:8081}
   otpv0:
     end-point: ${OTPV0_ENDPOINT:http://localhost:8087}
+  agtw0:
+    end-point: ${AGTW0_ENDPOINT:http://localhost:8079}

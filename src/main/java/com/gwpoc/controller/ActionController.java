@@ -1,5 +1,6 @@
 package com.gwpoc.controller;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gwpoc.command.OtpCommand;
 import com.gwpoc.command.PinCommand;
+import com.gwpoc.model.request.AuthRequest;
 import com.gwpoc.model.request.OtpRequest;
 import com.gwpoc.model.request.PinRequest;
+import com.gwpoc.model.response.AuthResponse;
 import com.gwpoc.model.response.OtpResponse;
 import com.gwpoc.model.response.PinResponse;
 

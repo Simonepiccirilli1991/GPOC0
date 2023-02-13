@@ -1,6 +1,8 @@
 package com.gwpoc.model.action;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 
 public abstract class BaseActionService <I extends BaseActionRequest, O extends BaseActionResponse>{
@@ -16,5 +18,11 @@ public abstract class BaseActionService <I extends BaseActionRequest, O extends 
 	}
 
 	public abstract O lunchService_(I iRequest, HttpHeaders httpHeaders);
+	
+	public ResponseEntity<O> lunchServiceEnt(I iRequest, HttpHeaders httpHeaders) {
+		// default implementation
+		O oResponse = lunchService(iRequest, httpHeaders);
+		return new ResponseEntity<O>(oResponse, HttpStatus.OK);
+	}
 	
 }

@@ -3,7 +3,9 @@ package com.gwpoc.Util;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ActionEnum {
-
+	
+	GENERATEAUTH("generate_auth"),
+	CHECKAUTH("check_auth"),
 	CHECKPIN("checkpin"),
 	CHANGEPIN("changepin"),
 	CONSENT("consent"),

@@ -1,21 +1,25 @@
 package com.gwpoc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwpoc.fragment.model.Ordini;
 import com.gwpoc.model.request.AccountRequest;
+import com.gwpoc.model.request.AuthRequest;
 import com.gwpoc.model.request.OrdiniRequest;
 import com.gwpoc.model.request.PushRequest;
 import com.gwpoc.model.request.UtenteRequest;
 import com.gwpoc.model.response.AccountResponse;
+import com.gwpoc.model.response.AuthResponse;
 import com.gwpoc.model.response.PushResponse;
 import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
@@ -24,6 +28,7 @@ import com.gwpoc.service.OrdiniService;
 import com.gwpoc.service.StatusService;
 import com.gwpoc.service.UtenteService;
 import com.gwpoc.service.push.PushService;
+import com.gwpoc.service.validation.GetAuthService;
 
 @RestController
 @RequestMapping("app")
@@ -39,6 +44,8 @@ public class AppController {
 	StatusService statusService;
 	@Autowired
 	PushService pushService;
+	@Autowired
+	GetAuthService authService;
 	
 	//utente controller
 	@PostMapping("utente/register")
@@ -92,5 +99,9 @@ public class AppController {
 	@PostMapping("push/get")
 	public ResponseEntity<PushResponse> getPushPolling(@RequestBody PushRequest request){
 		return new ResponseEntity<>(pushService.getStatusPush(request), HttpStatus.OK);
+	}
+	@PostMapping("context/create")
+	public ResponseEntity<AuthResponse> createAuth(@RequestBody AuthRequest request, @RequestHeader HttpHeaders header){
+		return authService.generateAuth(request, header);
 	}
 }
