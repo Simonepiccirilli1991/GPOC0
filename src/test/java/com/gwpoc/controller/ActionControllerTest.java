@@ -14,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwpoc.Util.ActionEnum;
+import com.gwpoc.client.AgtwClient;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
@@ -32,6 +36,7 @@ import com.gwpoc.model.response.GenerateOtpResponse;
 import com.gwpoc.model.response.OtpResponse;
 import com.gwpoc.model.response.PinResponse;
 import com.gwpoc.model.response.SessionResponse;
+import com.gwpoc.service.validation.GetAuthService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,6 +53,8 @@ public class ActionControllerTest {
 	CachClient cach;
 	@MockBean
 	IwdbClient iwdb;
+	@MockBean
+	AgtwClient agtw;
 	
 	ObjectMapper mapper = new ObjectMapper();
 	
@@ -70,6 +77,14 @@ public class ActionControllerTest {
 		
 		GenerateOtpResponse otp = new GenerateOtpResponse();
 		otp.setTrxId("trxId");
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Prova", "unCazz");
+		
+		HttpHeaders headerResp = new HttpHeaders();
+		headerResp.add("Authorization", "1234567");
+		ResponseEntity<Boolean> oresp = new ResponseEntity<>(true,headerResp,HttpStatus.OK);
+		
 		doNothing().when(ansc).checkPin(any());
 		
 		when(ansc.getAnagrafica(any())).thenReturn(anag);
@@ -78,8 +93,11 @@ public class ActionControllerTest {
 		
 		when(otpv.generaOtpMock(any())).thenReturn(otp);
 		
+		when(agtw.createAuth(any())).thenReturn(oresp);
+		
 		String resp = mvc.perform(post("/action/pin")
 				.contentType("application/json")
+				.headers(header)
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
@@ -108,6 +126,14 @@ public class ActionControllerTest {
 		
 		GenerateOtpResponse otp = new GenerateOtpResponse();
 		otp.setTrxId("trxId");
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Prova", "unCazz");
+		
+		HttpHeaders headerResp = new HttpHeaders();
+		headerResp.add("Authorization", "1234567");
+		ResponseEntity<Boolean> oresp = new ResponseEntity<>(true,headerResp,HttpStatus.OK);
+		
 		doNothing().when(ansc).checkPin(any());
 		
 		when(ansc.getAnagrafica(any())).thenReturn(anag);
@@ -115,6 +141,8 @@ public class ActionControllerTest {
 		when(cach.createSession(any())).thenReturn(session);
 		
 		when(otpv.generaOtpMock(any())).thenReturn(otp);
+		
+		when(agtw.createAuth(any())).thenReturn(oresp);
 		
 		String resp = mvc.perform(post("/action/pin")
 				.contentType("application/json")
@@ -155,8 +183,14 @@ public class ActionControllerTest {
 		
 		doNothing().when(ansc).certifyMail(any());
 		
+		doNothing().when(agtw).validateAuth(any(),any(),any(),any());
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Authorization", "1234567");
+		
 		String resp = mvc.perform(post("/action/pin")
 				.contentType("application/json")
+				.headers(header)
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
@@ -225,6 +259,9 @@ public class ActionControllerTest {
 		statusResp.setMsg("daje");
 		statusResp.setStatus("registered");
 		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Authorization", "1234567");
+		
 		when(iwdb.getstatus(any())).thenReturn(statusResp);
 		
 		when(ansc.getAnagrafica(any())).thenReturn(anag);
@@ -233,8 +270,11 @@ public class ActionControllerTest {
 		
 		when(cach.updateSession(any())).thenReturn(session);
 		
+		doNothing().when(agtw).validateAuth(any(),any(),any(),any());
+		
 		String resp = mvc.perform(post("/action/otp")
 				.contentType("application/json")
+				.headers(header)
 				.content(mapper.writeValueAsString(request)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		

@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -26,7 +28,7 @@ public class PinCommand extends BaseActionCommand<PinRequest, PinResponse>{
 		super(iRequest, header);
 	}
 
-	public PinResponse doExcute() throws Exception{
+	public ResponseEntity<PinResponse>  doExcute() throws Exception{
 		
 		logger.info("API :PinCommand - raw request before command execution: {}", iRequest);
 		
@@ -35,12 +37,17 @@ public class PinCommand extends BaseActionCommand<PinRequest, PinResponse>{
 			case CHECKPIN:
 				if(ObjectUtils.isEmpty(iRequest.getBt()) && ObjectUtils.isEmpty(iRequest.getPin()))
 					throw new AppException("invalid request");
-				return super.getResponse(CheckPinService.class);
+				PinResponse response = super.getResponse(CheckPinService.class);
+				
+				return new ResponseEntity<>(response, response.getHttpHeaders(),HttpStatus.OK);
 			
 			case CERTIFYMAIL:
 				if(ObjectUtils.isEmpty(iRequest.getBt()) || ObjectUtils.isEmpty(iRequest.getOtp()))
 					throw new AppException("invalid request");
-				return super.getResponse(CertifyMailService.class);
+				
+				PinResponse  iResponse = super.getResponse(CertifyMailService.class);
+				
+				return new ResponseEntity<>(iResponse,HttpStatus.OK);
 		default:
 			throw new AppException("");
 		}

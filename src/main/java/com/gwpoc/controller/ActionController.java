@@ -3,10 +3,12 @@ package com.gwpoc.controller;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,13 +28,13 @@ public class ActionController {
 	@Autowired protected BeanFactory beanFactory;
 	
 	@PostMapping("pin")
-	public ResponseEntity<PinResponse> pinServices(@RequestBody PinRequest request) throws Exception {
-		return new ResponseEntity<>(beanFactory.getBean(PinCommand.class, request, null).doExcute(), HttpStatus.OK);
+	public ResponseEntity<PinResponse> pinServices(@RequestBody PinRequest request, @RequestHeader HttpHeaders header) throws Exception {
+		return beanFactory.getBean(PinCommand.class, request, header).doExcute();
 	}
 	
 	@PostMapping("otp")
-	public ResponseEntity<OtpResponse> otpServices(@RequestBody OtpRequest request) throws Exception {		
-		return  new ResponseEntity<>(beanFactory.getBean(OtpCommand.class, request, null).doExcute(), HttpStatus.OK);
+	public ResponseEntity<OtpResponse> otpServices(@RequestBody OtpRequest request, @RequestHeader HttpHeaders header) throws Exception {		
+		return  new ResponseEntity<>(beanFactory.getBean(OtpCommand.class, request, header).doExcute(), HttpStatus.OK);
 	}
 	
 	//TODO continuare 

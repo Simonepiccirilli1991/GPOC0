@@ -13,6 +13,7 @@ services:
       - CACH0_ENDPOINT=http://CACH0:8082
       - OTPV0_ENDPOINT=http://OTPV0:8087
       - ANSC0_ENDPOINT=http://ANSC0:8081
+      - AGTW0_ENDPOINT=http://AGTW0:8079
     image: gpoc-img
     networks:
       - app-net
@@ -74,6 +75,17 @@ services:
     environment:
       - CACH0_ENDPOINT=http://CACH0:8082
     image: otpv-img
+    networks:
+      - app-net
+  AGTW0:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8079:8079"
+    environment:
+      - CACH0_ENDPOINT=http://CACH0:8082
+    image: agtw-img
     networks:
       - app-net
 volumes:

@@ -24,9 +24,9 @@ public class GetAuthService {
 		
 		AuthResponse response = new AuthResponse();
 		
-		ResponseEntity<String> iResp = agtwClient.createAuth(iRequest);
+		ResponseEntity<Boolean> iResp = agtwClient.createAuth(iRequest);
 		
-		if(ObjectUtils.isEmpty(iResp.getBody())  || iResp.getBody().equals("Blablabla"))
+		if(ObjectUtils.isEmpty(iResp.getBody())  || !iResp.getBody())
 			throw new AppException("TODO");
 		else
 			header.add("Authorization", iResp.getHeaders().getFirst("Authorization"));

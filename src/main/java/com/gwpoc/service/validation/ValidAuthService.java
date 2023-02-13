@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.gwpoc.client.AgtwClient;
 import com.gwpoc.model.request.AuthRequest;
@@ -19,7 +20,14 @@ public class ValidAuthService{
 	public ResponseEntity<AuthResponse> validateAuthWithData(AuthRequest request, HttpHeaders header) {
 		
 		AuthResponse response = new AuthResponse();
-		// fa cose
+		Boolean doubleChck = (ObjectUtils.isEmpty(header.getFirst("CheckDouble"))) ? false : true;
+		
+		if(doubleChck) 
+			agtwClient.validateAuth(request.getBt(), request.getPin(), doubleChck, header);
+		else 
+			agtwClient.validateAuth(null, null, doubleChck, header);
+		
+		response.setGenerated(true);
 		
 		return new ResponseEntity<>(response,header,HttpStatus.OK);
 	}

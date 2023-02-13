@@ -24,5 +24,13 @@ public class BaseActionResponse {
 		this.action = action;
 	}
 
+	public HttpHeaders getHttpHeaders() {
+		return httpHeaders;
+	}
+
+	public void setHttpHeaders(HttpHeaders httpHeaders) {
+		this.httpHeaders = httpHeaders;
+	}
+
 	
 }

@@ -14,6 +14,7 @@ import com.gwpoc.model.response.OtpResponse;
 import com.gwpoc.service.SessionService;
 import com.gwpoc.service.SicService;
 import com.gwpoc.service.StatusService;
+import com.gwpoc.service.validation.ValidAuthService;
 
 @Service
 public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
@@ -26,6 +27,8 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 	CommonUtil utils;
 	@Autowired
 	StatusService statusServ;
+	@Autowired
+	ValidAuthService authService;
 	
 	Logger logger = LoggerFactory.getLogger(CheckOtpService.class);
 	
@@ -35,6 +38,8 @@ public class CheckOtpService extends BaseActionService<OtpRequest, OtpResponse>{
 		logger.info("API :CheckOtpService - START with raw request: {}", iRequest);
 		
 		OtpResponse response = new OtpResponse();
+		// prima di fare il checkOtp valido auth senza dati
+		authService.validateAuthWithData(null, httpHeaders);
 		
 		// checkOtp
 		sic.checkOtp(utils.generateCheckOtpRequest(iRequest.getBt(), iRequest.getOtp(), iRequest.getTrxId()));

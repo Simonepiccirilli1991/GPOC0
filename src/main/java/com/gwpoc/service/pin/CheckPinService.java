@@ -12,12 +12,14 @@ import com.gwpoc.Util.CommonUtil;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.model.SicRequest;
 import com.gwpoc.model.action.BaseActionService;
+import com.gwpoc.model.request.AuthRequest;
 import com.gwpoc.model.request.PinRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
 import com.gwpoc.model.response.PinResponse;
 import com.gwpoc.service.AnagraficaService;
 import com.gwpoc.service.SessionService;
 import com.gwpoc.service.SicService;
+import com.gwpoc.service.validation.GetAuthService;
 
 @Service
 public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
@@ -28,6 +30,8 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 	AnagraficaService anag;
 	@Autowired
 	SessionService session;
+	@Autowired
+	GetAuthService authService;
 	@Autowired
 	CommonUtil utils;
 	
@@ -65,6 +69,17 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 			response.setTrxId(trxId);
 		}
 		
+		// creo auth e torno
+		AuthRequest request = new AuthRequest();
+		request.setBt(iRequest.getBt());
+		request.setPin(iRequest.getPin());
+		
+		String auth = authService.generateAuth(request, httpHeaders).getHeaders().getFirst("Authorization");
+		if(ObjectUtils.isEmpty(auth))
+			throw new AppException("TBD");
+		
+		httpHeaders.add("Authorization", auth);
+		response.setHttpHeaders(httpHeaders);
 		logger.info("API :CheckPinService - END with response: {}", response);
 		return response;
 	}

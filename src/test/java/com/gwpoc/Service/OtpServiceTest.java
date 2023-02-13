@@ -1,5 +1,6 @@
 package com.gwpoc.Service;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 
 import com.gwpoc.Util.ActionEnum;
+import com.gwpoc.client.AgtwClient;
 import com.gwpoc.client.AnscClient;
 import com.gwpoc.client.CachClient;
 import com.gwpoc.client.IwdbClient;
@@ -39,7 +42,8 @@ public class OtpServiceTest {
 	OtpvClient otpvClient;
 	@MockBean
 	IwdbClient iwdbCLient;
-	
+	@MockBean
+	AgtwClient agtw;
 	
 	@Test
 	public void generateTestOK() {
@@ -95,6 +99,12 @@ public class OtpServiceTest {
 		statusResp.setMsg("daje");
 		statusResp.setStatus("registered");
 		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Prova", "unCazz");
+		
+		HttpHeaders headerResp = new HttpHeaders();
+		headerResp.add("Authorization", "1234567");
+		
 		when(iwdbCLient.getstatus(any())).thenReturn(statusResp);
 		
 		when(anscClient.getAnagrafica(any())).thenReturn(anag);
@@ -103,7 +113,9 @@ public class OtpServiceTest {
 		
 		when(cachClient.updateSession(any())).thenReturn(session);
 		
-		OtpResponse response = check.lunchService(request, null);
+		doNothing().when(agtw).validateAuth(any(),any(),any(),any());
+		
+		OtpResponse response = check.lunchService(request, headerResp);
 		
 		assertThat(response.getAction()).isEqualTo(ActionEnum.CONSENT);
 		
