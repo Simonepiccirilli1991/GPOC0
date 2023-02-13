@@ -44,6 +44,7 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		logger.info("API :CheckPinService - START with raw request: {}", iRequest);
 		
 		PinResponse response = new PinResponse();
+		HttpHeaders header = new HttpHeaders();
 		//fatto sta porcata perchè non mi va di refactorare i metodi
 		//TODO quando hai voglia fallo bene cane!
 		SicRequest iReq = utils.changeRequest(iRequest);
@@ -74,12 +75,12 @@ public class CheckPinService extends BaseActionService<PinRequest, PinResponse>{
 		request.setBt(iRequest.getBt());
 		request.setPin(iRequest.getPin());
 		
-		String auth = authService.generateAuth(request, httpHeaders).getHeaders().getFirst("Authorization");
+		String auth = authService.generateAuth(request, httpHeaders).getHttpHeaders().getFirst("Authorization");
 		if(ObjectUtils.isEmpty(auth))
 			throw new AppException("TBD");
 		
-		httpHeaders.add("Authorization", auth);
-		response.setHttpHeaders(httpHeaders);
+		header.add("Authorization", auth);
+		response.setHttpHeaders(header);
 		logger.info("API :CheckPinService - END with response: {}", response);
 		return response;
 	}

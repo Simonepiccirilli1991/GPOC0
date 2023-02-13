@@ -13,4 +13,4 @@ config:
   otpv0:
     end-point: ${OTPV0_ENDPOINT}
   agtw0:
-    end-point: ${ANSC0_ENDPOINT}
+    end-point: ${AGTW0_ENDPOINT}

@@ -102,6 +102,9 @@ public class AppController {
 	}
 	@PostMapping("context/create")
 	public ResponseEntity<AuthResponse> createAuth(@RequestBody AuthRequest request, @RequestHeader HttpHeaders header){
-		return authService.generateAuth(request, header);
+		AuthResponse resp = authService.generateAuth(request, header);
+		return ResponseEntity.ok()
+				.headers(resp.getHttpHeaders())
+				.body(resp);
 	}
 }

@@ -2,7 +2,7 @@ package com.gwpoc.model.response;
 
 import com.gwpoc.model.action.BaseActionResponse;
 
-public class AuthResponse {
+public class AuthResponse extends BaseActionResponse{
 
 	private Boolean generated;
 

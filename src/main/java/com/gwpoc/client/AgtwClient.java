@@ -1,5 +1,7 @@
 package com.gwpoc.client;
 
+import java.time.Duration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import com.gwpoc.fragment.model.AnagraficaRequest;
 import com.gwpoc.model.request.AuthRequest;
 import com.gwpoc.model.response.AnagraficaResponse;
 
+import io.netty.channel.ChannelOption;
 import reactor.core.publisher.Mono;
 
 @Component

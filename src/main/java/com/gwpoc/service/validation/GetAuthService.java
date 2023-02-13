@@ -20,10 +20,10 @@ public class GetAuthService {
 	AgtwClient agtwClient;
 	
 	
-	public ResponseEntity<AuthResponse> generateAuth(AuthRequest iRequest, HttpHeaders header) {
+	public AuthResponse generateAuth(AuthRequest iRequest, HttpHeaders headers) {
 		
 		AuthResponse response = new AuthResponse();
-		
+		HttpHeaders header = new HttpHeaders();
 		ResponseEntity<Boolean> iResp = agtwClient.createAuth(iRequest);
 		
 		if(ObjectUtils.isEmpty(iResp.getBody())  || !iResp.getBody())
@@ -31,8 +31,9 @@ public class GetAuthService {
 		else
 			header.add("Authorization", iResp.getHeaders().getFirst("Authorization"));
 		
+		response.setHttpHeaders(header);
 		response.setGenerated(true);
-		return new ResponseEntity<>(response, header, HttpStatus.OK);
+		return response;
 	}
 
 	
