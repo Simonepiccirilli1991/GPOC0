@@ -108,6 +108,7 @@ public class IwdbClient {
 	
 	// account calls
 	// insert account
+	
 	public AccountIwResponse insertAccount(AccountRequest request) {
 		logger.info("CLIENT :IwdbClient - insertAccount -  START with raw request: {}", request);
 		

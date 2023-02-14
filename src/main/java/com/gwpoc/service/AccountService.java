@@ -1,10 +1,14 @@
 package com.gwpoc.service;
 
+import java.util.concurrent.TimeoutException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
@@ -25,6 +29,7 @@ public class AccountService {
 	
 	Logger logger = LoggerFactory.getLogger(AccountService.class);
 	
+	@Retryable(retryFor ={TimeoutException.class}, maxAttempts = 3)
 	public AccountResponse insertAccount(AccountRequest request) {
 		
 		logger.info("API :AccountService - insert -  START with raw request: {}", request);
