@@ -25,6 +25,7 @@ import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
 import com.gwpoc.service.AccountService;
 import com.gwpoc.service.OrdiniService;
+import com.gwpoc.service.DelayService;
 import com.gwpoc.service.StatusService;
 import com.gwpoc.service.UtenteService;
 import com.gwpoc.service.push.PushService;
@@ -46,7 +47,8 @@ public class AppController {
 	PushService pushService;
 	@Autowired
 	GetAuthService authService;
-	
+	@Autowired
+	DelayService delayService;
 	//utente controller
 	@PostMapping("utente/register")
 	public ResponseEntity<UtenteResponse> registyUtente(@RequestBody UtenteRequest request){	
@@ -106,5 +108,10 @@ public class AppController {
 		return ResponseEntity.ok()
 				.headers(resp.getHttpHeaders())
 				.body(resp);
+	}
+	@RequestMapping("delay")
+	public ResponseEntity<String> reflect(@RequestHeader HttpHeaders header){
+		
+		return new ResponseEntity<>(delayService.reflecting(), HttpStatus.OK);
 	}
 }
