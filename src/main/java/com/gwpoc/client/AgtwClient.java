@@ -62,57 +62,35 @@ public class AgtwClient {
 		return response;
 	}
 
-	public void validateAuth(String bt,String pin,Boolean doubleAuth, HttpHeaders header) {
-		logger.info("CLIENT :AgtwClient - createAuth -  START with raw request: {} , {} , {}", bt, pin, doubleAuth);
+	public void validateAuth(String bt, String pin, boolean doubleAuth, HttpHeaders header) {
+		logger.info("CLIENT: AgtwClient - createAuth - START with raw request: {}, {}, {}", bt, pin, doubleAuth);
 
-		ResponseEntity<String> response = null;
-		Mono<ResponseEntity<String>> iResp = null;
+		String endpoint = doubleAuth ? "/validate" : "/validate1";
+		String uri = UriComponentsBuilder.fromHttpUrl(agtwUri + endpoint).toUriString();
 
-		// passo pin e bt oltre a auth
-		if(Boolean.TRUE.equals(doubleAuth)) {
-
+		try {
 			AuthRequest request = new AuthRequest();
-			request.setBt(bt);
-			request.setPin(pin);
+					if(doubleAuth) {
+						request.setBt(bt);
+						request.setPin(pin);
+					}
+			Mono<ResponseEntity<String>> iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization", header.getFirst("Authorization"))
+					.bodyValue(request)
+					.retrieve()
+					.toEntity(String.class);
 
-			String uri = UriComponentsBuilder.fromHttpUrl(agtwUri + "/validate").toUriString();
-			try {
-				iResp = webClient.post()
-						.uri(uri)
-						.accept(MediaType.APPLICATION_JSON)
-						.contentType(MediaType.APPLICATION_JSON)
-						.header("Authorization", header.getFirst("Authorization"))
-						.body(Mono.just(request), AuthRequest.class)
-						.retrieve()
-						.toEntity(String.class);
+			ResponseEntity<String> response = iResp.block();
+			if (!response.getStatusCode().is2xxSuccessful()) {
+				throw new AppException("HTTP error " + response.getStatusCodeValue());
 			}
-			catch(Exception e) {
-				logger.error("Client : AgtwClient - createAuth - EXCEPTION", e);
-				throw new AppException("");
-			}
-			//passo solo auth per vedere se e ancora valido
-		}else {
 
-			String uri = UriComponentsBuilder.fromHttpUrl(agtwUri + "/validate1").toUriString();
-			try {
-				iResp = webClient.post()
-						.uri(uri)
-						.accept(MediaType.APPLICATION_JSON)
-						.contentType(MediaType.APPLICATION_JSON)
-						.header("Authorization", header.getFirst("Authorization"))
-						.retrieve()
-						.toEntity(String.class);
-			}
-			catch(Exception e) {
-				logger.error("Client : AgtwClient - createAuth - EXCEPTION", e);
-				throw new AppException("");
-			}
+		} catch (Exception e) {
+			logger.error("CLIENT: AgtwClient - createAuth - EXCEPTION", e);
+			throw new AppException(e.getMessage());
 		}
-
-		response = iResp.block();
-
-		logger.info("CLIENT :AnscClient - insertAnag -  END response: {}", response);
-		if(ObjectUtils.isEmpty(response.getBody()) || !response.getBody().equals("Action performed successfully!"))
-			throw new AppException("TBD");
 	}
 }

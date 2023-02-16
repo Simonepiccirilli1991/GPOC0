@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +17,7 @@ import com.gwpoc.fragment.model.Account;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.response.AccountResponse;
 import com.gwpoc.model.response.SessionResponse;
-import com.gwpoc.service.AccountService;
+import com.gwpoc.service.account.AccountService;
 
 @SpringBootTest(classes = Gpoc0Application.class)
 public class AccountServiceTest {

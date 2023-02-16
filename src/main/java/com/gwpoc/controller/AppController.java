@@ -23,7 +23,7 @@ import com.gwpoc.model.response.AuthResponse;
 import com.gwpoc.model.response.PushResponse;
 import com.gwpoc.model.response.StatusResponse;
 import com.gwpoc.model.response.UtenteResponse;
-import com.gwpoc.service.AccountService;
+import com.gwpoc.service.account.AccountService;
 import com.gwpoc.service.OrdiniService;
 import com.gwpoc.service.DelayService;
 import com.gwpoc.service.StatusService;

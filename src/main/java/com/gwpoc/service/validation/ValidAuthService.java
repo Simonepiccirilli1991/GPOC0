@@ -20,12 +20,12 @@ public class ValidAuthService{
 	public ResponseEntity<AuthResponse> validateAuthWithData(AuthRequest request, HttpHeaders header) {
 		
 		AuthResponse response = new AuthResponse();
-		Boolean doubleChck = (ObjectUtils.isEmpty(header.getFirst("CheckDouble"))) ? false : true;
+		boolean dobulecheck = !ObjectUtils.isEmpty(header.getFirst("doubleChck")) ? true : false;
 		
-		if(doubleChck) 
-			agtwClient.validateAuth(request.getBt(), request.getPin(), doubleChck, header);
+		if(dobulecheck)
+			agtwClient.validateAuth(request.getBt(), request.getPin(), true, header);
 		else 
-			agtwClient.validateAuth(null, null, doubleChck, header);
+			agtwClient.validateAuth(null, null, false, header);
 		
 		response.setGenerated(true);
 		

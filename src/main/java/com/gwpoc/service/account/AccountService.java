@@ -1,4 +1,4 @@
-package com.gwpoc.service;
+package com.gwpoc.service.account;
 
 import java.util.concurrent.TimeoutException;
 
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.client.HttpClientErrorException;
 
 import com.gwpoc.client.IwdbClient;
 import com.gwpoc.error.AppException;
@@ -17,7 +16,6 @@ import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.model.request.AccountRequest;
 import com.gwpoc.model.request.SessionRequest;
 import com.gwpoc.model.response.AccountResponse;
-import com.gwpoc.service.pin.CertifyMailService;
 
 @Service
 public class AccountService {
