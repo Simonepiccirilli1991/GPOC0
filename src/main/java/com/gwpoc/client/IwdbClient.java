@@ -183,7 +183,32 @@ public class IwdbClient {
 		logger.info("CLIENT :IwdbClient - getAcc -  END response: {}", response);
 		return response;
 	}
-	
+	// recharge Account
+	public AccountIwResponse rechargeAcc(AccountRequest request) {
+		logger.info("CLIENT :IwdbClient - rechargeAcc -  START with raw request: {}", request);
+		AccountIwResponse response = null;
+		Mono<AccountIwResponse> iResp = null;
+
+		String uri = UriComponentsBuilder.fromHttpUrl(iwdbUri + "/acc/recharge").toUriString();
+
+			iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(Mono.just(request), AccountRequest.class)
+					.retrieve()
+					.bodyToMono(AccountIwResponse.class)
+					.onErrorMap(e -> {
+						logger.error("Client : IwdbClient - rechargeAcc - EXCEPTION", e);
+	                    return new AppException("Error try recharge account");
+	                });
+		response = iResp.block();
+
+		if(response.isError())
+			throw new AppException(response.getCodiceEsito());
+		logger.info("CLIENT :IwdbClient - rechargeAcc -  END response: {}", response);
+		return response;
+	}
 	// orderCall
 	//createOrder
 	public OrdiniIwResponse creaOrdine(OrdiniRequest request) {

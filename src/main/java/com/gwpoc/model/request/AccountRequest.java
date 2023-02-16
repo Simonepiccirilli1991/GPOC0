@@ -2,6 +2,7 @@ package com.gwpoc.model.request;
 
 import org.springframework.lang.NonNull;
 
+
 public class AccountRequest {
 	
 	@NonNull
@@ -11,6 +12,8 @@ public class AccountRequest {
 	// per creazione acc
 	private String tipoAccount;
 	private Double debito;
+
+	private String codiceConto;
 	
 	public String getBt() {
 		return bt;
@@ -36,7 +39,15 @@ public class AccountRequest {
 	public void setDebito(Double debito) {
 		this.debito = debito;
 	}
-	
+
+	public String getCodiceConto() {
+		return codiceConto;
+	}
+
+	public void setCodiceConto(String codiceConto) {
+		this.codiceConto = codiceConto;
+	}
+
 	@Override
 	public String toString() {
 		return "AccountRequest [bt=" + bt + ", importo=" + importo + ", tipoAccount=" + tipoAccount + ", debito="

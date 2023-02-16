@@ -12,6 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
+import com.gwpoc.client.*;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,10 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwpoc.Util.ActionEnum;
-import com.gwpoc.client.AnscClient;
-import com.gwpoc.client.CachClient;
-import com.gwpoc.client.IwdbClient;
-import com.gwpoc.client.OtpvPushClient;
 import com.gwpoc.error.AppException;
 import com.gwpoc.fragment.iwdb.AccountIwResponse;
 import com.gwpoc.fragment.iwdb.OrdiniIwResponse;
@@ -57,6 +55,8 @@ public class AppControllerTest {
 	IwdbClient iwdbClient;
 	@MockBean
 	CachClient cachClient;
+	@MockBean
+	AgtwClient agtwClient;
 	@Autowired
 	MockMvc mvc;
 
@@ -274,7 +274,41 @@ public class AppControllerTest {
 		assertThat(response.isDone()).isTrue();
 		assertThat(response.getAccount().getCodiceconto()).isEqualTo("1231231");
 	}
-	
+
+	@Test
+	public void rechargeAccTestOK() throws Exception{
+
+		AccountRequest request = new AccountRequest();
+		request.setBt("bt");
+		request.setImporto(100.00);
+		request.setCodiceConto("codiceConto");
+		request.setTipoAccount("Debito");
+		request.setDebito(0.00);
+
+		SessionResponse sessionResponse = new SessionResponse();
+		sessionResponse.setScope("l2");
+
+		AccountIwResponse accountIwResponse = new AccountIwResponse();
+		accountIwResponse.setCodiceEsito("OK");
+
+		when(cachClient.getSession(any())).thenReturn(sessionResponse);
+
+		doNothing().when(agtwClient).validateAuthBank(any());
+		when(iwdbClient.rechargeAcc(any())).thenReturn(accountIwResponse);
+
+		String resp = mvc.perform(post("/app/acc/recharge")
+						.contentType("application/json")
+						.header("Authorization", "Bearer " + "token")
+						.content(mapper.writeValueAsString(request)))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+
+		AccountResponse response = mapper.readValue(resp, AccountResponse.class);
+
+		Assertions.assertThat(response.isDone()).isTrue();
+
+
+	}
 	// -------------Order Test ----------------------------------------------------------------------------//
 	
 	@Test

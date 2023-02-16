@@ -65,7 +65,7 @@ public class AgtwClient {
 	public void validateAuth(String bt, String pin, boolean doubleAuth, HttpHeaders header) {
 		logger.info("CLIENT: AgtwClient - createAuth - START with raw request: {}, {}, {}", bt, pin, doubleAuth);
 
-		String endpoint = doubleAuth ? "/validate" : "/validate1";
+		String endpoint = doubleAuth ? "/validate/body" : "/validate";
 		String uri = UriComponentsBuilder.fromHttpUrl(agtwUri + endpoint).toUriString();
 
 		try {
@@ -92,5 +92,25 @@ public class AgtwClient {
 			logger.error("CLIENT: AgtwClient - createAuth - EXCEPTION", e);
 			throw new AppException(e.getMessage());
 		}
+	}
+
+	public void validateAuthBank(HttpHeaders header) {
+
+		String endpoint = "/validate/bank";
+		String uri = UriComponentsBuilder.fromHttpUrl(agtwUri + endpoint).toUriString();
+
+			Mono<ResponseEntity<String>> iResp = webClient.post()
+					.uri(uri)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization", header.getFirst("Authorization"))
+					.retrieve()
+					.toEntity(String.class).onErrorMap(
+							e -> new AppException("ERKO-08"));
+
+			ResponseEntity<String> response = iResp.block();
+
+			if(response.getBody().equals("Bank user not admitted"))
+				throw new AppException("ERKO-09");
 	}
 }

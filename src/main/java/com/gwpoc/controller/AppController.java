@@ -1,5 +1,6 @@
 package com.gwpoc.controller;
 
+import com.gwpoc.service.account.RechargeAccService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,8 @@ public class AppController {
 	@Autowired
 	GetAuthService authService;
 	@Autowired
+	RechargeAccService rechargeService;
+	@Autowired
 	DelayService delayService;
 	//utente controller
 	@PostMapping("utente/register")
@@ -70,6 +73,10 @@ public class AppController {
 	@PostMapping("acc/update")
 	public ResponseEntity<AccountResponse> updateAcc(@RequestBody AccountRequest request){
 		return new ResponseEntity<>(accService.updateAccount(request),HttpStatus.OK);
+	}
+	@PostMapping("acc/recharge")
+	public ResponseEntity<AccountResponse> rechargeAcc(@RequestBody AccountRequest request,@RequestHeader HttpHeaders header){
+		return new ResponseEntity<>(rechargeService.rechargeAccount(request, header),HttpStatus.OK);
 	}
 	@GetMapping("acc/get/{bt}")
 	public ResponseEntity<AccountResponse> insertAcc(@PathVariable ("bt") String bt){
