@@ -26,7 +26,6 @@ public class AgtwClient {
 
 	@Value("${config.agtw0.end-point}")
 	private String agtwUri;
-	
 	Logger logger = LoggerFactory.getLogger(AgtwClient.class);
 	
 	WebClient webClient = WebClient.create(agtwUri);
